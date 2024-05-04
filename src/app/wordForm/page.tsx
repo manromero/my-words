@@ -1,6 +1,6 @@
 import { WordForm } from "@/components";
 
-export default function Word() {
+export default function WordFormPage() {
   return (
     <div>
       <WordForm />

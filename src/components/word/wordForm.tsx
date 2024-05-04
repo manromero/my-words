@@ -28,7 +28,6 @@ export const WordForm = () => {
               helperText="Insert here the word or concept to translate"
             />
           </FormControl>
-
           <FormControl variant="outlined" fullWidth>
             <InputLabel htmlFor="input-word-translation">
               Translation:
@@ -53,7 +52,6 @@ export const WordForm = () => {
               magic wand
             </FormHelperText>
           </FormControl>
-
           <FormControl>
             <TextField
               fullWidth
@@ -64,7 +62,6 @@ export const WordForm = () => {
               helperText="Insert here help notes"
             />
           </FormControl>
-
           <FormControl fullWidth>
             <InputLabel htmlFor="input-word-tag">Tags:</InputLabel>
             <Select id="input-word-tag" label="Tags:" variant="outlined">
@@ -74,7 +71,6 @@ export const WordForm = () => {
             </Select>
             <FormHelperText>Select one or more tags</FormHelperText>
           </FormControl>
-
           <Stack direction="row" justifyContent="flex-end" spacing={2}>
             <Button
               variant="contained"
