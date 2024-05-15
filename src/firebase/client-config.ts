@@ -25,4 +25,4 @@ const clientApp =
 // Initialize firebase auth
 const clientAuth = getAuth(clientApp);
 
-export { clientApp, clientAuth };
+export { clientAuth };
