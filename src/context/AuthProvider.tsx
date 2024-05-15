@@ -1,17 +1,11 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import {
-  AuthContext,
-  CreateUserParamsType,
-  SignInParamsType,
-} from "./AuthContext";
+import { AuthContext } from "./AuthContext";
 import {
   GoogleAuthProvider,
   User,
-  createUserWithEmailAndPassword,
   signInWithCredential,
-  signInWithEmailAndPassword,
   signInWithPopup,
 } from "firebase/auth";
 import { clientAuth } from "@/firebase/client-config";
@@ -39,25 +33,10 @@ export const AuthProvider = ({ children }: TAuthProvider): JSX.Element => {
       .catch(() => window.alert("Unexpected error loging out"));
   };
 
-  const handleSignIn = async ({ email, password }: SignInParamsType) => {
-    signInWithEmailAndPassword(clientAuth, email.trim(), password)
-      .then(async (userCred) => {
-        const idToken = await userCred.user.getIdToken();
-        if (idToken) {
-          document.cookie = `${NEXT_PUBLIC_COOKIE_SESSION_NAME}=${idToken}`;
-          router.push("/");
-        }
-      })
-      .catch((error) => {
-        alert(`Login failed: ${error.message} - ${error.code}`);
-      });
-  };
-
   const handleSignInWithGoogle = () => {
     const googleProvider = new GoogleAuthProvider();
     signInWithPopup(clientAuth, googleProvider)
       .then(async (result) => {
-        // This gives you a Google Access Token. You can use it to access the Google API.
         const credential = GoogleAuthProvider.credentialFromResult(result);
         if (!credential) {
           return;
@@ -69,25 +48,8 @@ export const AuthProvider = ({ children }: TAuthProvider): JSX.Element => {
           router.push("/");
         }
       })
-      .catch((error) => {
-        alert(`Login failed: ${error.message} - ${error.code}`);
-      });
-  };
-
-  const handleCreateUser = async ({
-    email,
-    password,
-  }: CreateUserParamsType) => {
-    createUserWithEmailAndPassword(clientAuth, email, password)
-      .then(async (userCred) => {
-        const idToken = await userCred.user.getIdToken();
-        if (idToken) {
-          document.cookie = `${NEXT_PUBLIC_COOKIE_SESSION_NAME}=${idToken}`;
-          router.push("/");
-        }
-      })
-      .catch((error) => {
-        alert(`Sign up failed: ${error.message} - ${error.code}`);
+      .catch(() => {
+        console.error("Login failed....");
       });
   };
 
@@ -101,9 +63,7 @@ export const AuthProvider = ({ children }: TAuthProvider): JSX.Element => {
       value={{
         user,
         signOut: handleSignOut,
-        signIn: handleSignIn,
         signInWithGoogle: handleSignInWithGoogle,
-        createUser: handleCreateUser,
       }}
     >
       {children}
