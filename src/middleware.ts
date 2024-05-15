@@ -29,7 +29,7 @@ export async function middleware(request: NextRequest, response: any) {
   return NextResponse.next();
 }
 
-//Nuestras rutas protegidas
+// Protected routes
 export const config = {
   matcher: ["/", "/tagForm"],
 };
