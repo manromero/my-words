@@ -22,13 +22,13 @@ export const TagForm = () => {
             <TextField
               fullWidth
               id="1"
-              label="Label:"
+              label="Label"
               variant="outlined"
               helperText="Insert here the label of the tag"
             />
           </FormControl>
           <FormControl>
-            <FormLabel id="input-color-tag">Color:</FormLabel>
+            <FormLabel id="input-color-tag">Color</FormLabel>
             <RadioGroup
               aria-labelledby="input-color-tag"
               defaultValue="default"
@@ -72,7 +72,7 @@ export const TagForm = () => {
             </RadioGroup>
           </FormControl>
           <Stack direction="row" alignItems="center" spacing={2}>
-            <FormLabel component="p">Preview:</FormLabel>
+            <FormLabel component="p">Preview</FormLabel>
             <Chip label="warning" color="warning" />
           </Stack>
           <Stack direction="row" justifyContent="flex-end" spacing={2}>

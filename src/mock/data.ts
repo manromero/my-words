@@ -3,3 +3,8 @@ export const MOCK_WORDS = [
   { word: "cat", translation: "gato" },
   { word: "house", translation: "casa" },
 ];
+
+export const MOCK_TAGS = [
+  { label: "environment", color: "success" },
+  { label: "work", color: "info" },
+];

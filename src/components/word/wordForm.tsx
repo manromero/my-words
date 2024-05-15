@@ -23,14 +23,14 @@ export const WordForm = () => {
             <TextField
               fullWidth
               id="1"
-              label="Word or concept:"
+              label="Word or concept"
               variant="outlined"
               helperText="Insert here the word or concept to translate"
             />
           </FormControl>
           <FormControl variant="outlined" fullWidth>
             <InputLabel htmlFor="input-word-translation">
-              Translation:
+              Translation
             </InputLabel>
             <OutlinedInput
               fullWidth
@@ -57,13 +57,13 @@ export const WordForm = () => {
               fullWidth
               multiline
               minRows={3}
-              label="Notes:"
+              label="Notes"
               variant="outlined"
               helperText="Insert here help notes"
             />
           </FormControl>
           <FormControl fullWidth>
-            <InputLabel htmlFor="input-word-tag">Tags:</InputLabel>
+            <InputLabel htmlFor="input-word-tag">Tags</InputLabel>
             <Select id="input-word-tag" label="Tags:" variant="outlined">
               <MenuItem value={10}>Ten</MenuItem>
               <MenuItem value={20}>Twenty</MenuItem>
