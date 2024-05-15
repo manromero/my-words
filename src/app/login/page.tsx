@@ -2,20 +2,19 @@
 
 "use client";
 import React, { useState } from "react";
-import { useRouter } from "next/navigation";
 import Link from "next/link.js";
-import { signIn } from "@/firebase/utils";
+
+import { useAuth } from "@/hooks";
 
 const LoginForm = () => {
+  const { signIn, signInWithGoogle } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
-  const router = useRouter();
 
   const handleSubmit = (event: any) => {
     event.preventDefault();
 
-    signIn({ email: email.trim(), password, router });
+    signIn({ email: email.trim(), password });
   };
 
   return (
@@ -46,6 +45,9 @@ const LoginForm = () => {
         </div>
 
         <button type="submit">Iniciar Sesión</button>
+        <button type="button" onClick={signInWithGoogle}>
+          Google{" "}
+        </button>
       </form>
 
       <div>

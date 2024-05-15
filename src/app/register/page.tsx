@@ -2,19 +2,18 @@
 
 "use client";
 import React, { useState } from "react";
-import { useRouter } from "next/navigation";
 import Link from "next/link.js";
-import { createUser } from "@/firebase/utils";
+import { useAuth } from "@/hooks";
 
 const SignUpForm = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const router = useRouter();
+  const { createUser } = useAuth();
 
   const handleSubmit = (event: any) => {
     event.preventDefault();
 
-    createUser({ email: email.trim(), password, router });
+    createUser({ email: email.trim(), password });
   };
 
   return (
