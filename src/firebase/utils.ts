@@ -4,6 +4,9 @@ import {
   signInWithEmailAndPassword,
 } from "firebase/auth";
 
+const NEXT_PUBLIC_COOKIE_SESSION_NAME =
+  process.env.NEXT_PUBLIC_COOKIE_SESSION_NAME ?? "";
+
 type CreateUserParamsType = {
   email: string;
   password: string;
@@ -17,20 +20,9 @@ const createUser = async ({
 }: CreateUserParamsType) => {
   createUserWithEmailAndPassword(clientAuth, email, password)
     .then(async (userCred) => {
-      fetch("/api/auth", {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${await userCred.user.getIdToken()}`,
-        },
-      })
-        .then((response) => {
-          if (response.status === 200) {
-            router.push("/");
-          }
-        })
-        .catch((error) => {
-          alert(`Sign up failed 2: ${error.message} - ${error.code}`);
-        });
+      const idToken = await userCred.user.getIdToken();
+      document.cookie = `${NEXT_PUBLIC_COOKIE_SESSION_NAME}=${idToken}`;
+      router.push("/");
     })
     .catch((error) => {
       alert(`Sign up failed: ${error.message} - ${error.code}`);
@@ -46,17 +38,9 @@ type SignInParamsType = {
 const signIn = async ({ email, password, router }: SignInParamsType) => {
   signInWithEmailAndPassword(clientAuth, email.trim(), password)
     .then(async (userCred) => {
-      fetch("/api/auth", {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${await userCred.user.getIdToken()}`,
-        },
-      }).then((response) => {
-        if (response.status === 200) {
-          console.log("routing to the next page");
-          router.push("/");
-        }
-      });
+      const idToken = await userCred.user.getIdToken();
+      document.cookie = `${NEXT_PUBLIC_COOKIE_SESSION_NAME}=${idToken}`;
+      router.push("/");
     })
     .catch((error) => {
       alert(`Login failed: ${error.message} - ${error.code}`);
