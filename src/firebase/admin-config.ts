@@ -1,5 +1,5 @@
-import { cert } from "firebase-admin/app";
-import * as admin from "firebase-admin";
+import { cert, getApps, getApp, initializeApp } from "firebase-admin/app";
+import { getAuth } from "firebase-admin/auth";
 
 const { privateKey } = JSON.parse(
   process.env.NEXT_PRIVATE_FIREBASE_ADMIN_PRIVATE_KEY ?? ""
@@ -13,9 +13,11 @@ const firebaseAdminConfig = {
   }),
 };
 
-if (!admin.apps.length) {
-  admin.initializeApp(firebaseAdminConfig);
-}
-const serverAuth = admin.auth();
+// Initialize firebase admin
+const serverApp =
+  getApps().length > 0 ? getApp() : initializeApp(firebaseAdminConfig);
+
+// Initialize firebase auth
+const serverAuth = getAuth(serverApp);
 
 export { serverAuth };
