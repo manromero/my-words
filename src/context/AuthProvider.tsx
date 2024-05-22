@@ -45,7 +45,8 @@ export const AuthProvider = ({ children }: TAuthProvider): JSX.Element => {
         const idToken = await userCred.user.getIdToken();
         if (idToken) {
           document.cookie = `${NEXT_PUBLIC_COOKIE_SESSION_NAME}=${idToken}`;
-          router.push("/");
+          // TODO should be hardcoded ?
+          router.push("/main");
         }
       })
       .catch(() => {

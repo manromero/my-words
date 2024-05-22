@@ -10,7 +10,7 @@ export async function middleware(request: NextRequest, response: any) {
 
   // If there is no cookie, return to login page
   if (!session?.value) {
-    return NextResponse.redirect(new URL("/login", request.url));
+    return NextResponse.redirect(new URL("/", request.url));
   }
 
   // Validate cookie
@@ -22,7 +22,7 @@ export async function middleware(request: NextRequest, response: any) {
 
   // If the cookie is not right redirect to the login page
   if (responseAPI.status !== 200) {
-    return NextResponse.redirect(new URL("/login", request.url));
+    return NextResponse.redirect(new URL("/", request.url));
   }
 
   // Allow to continue
@@ -31,5 +31,5 @@ export async function middleware(request: NextRequest, response: any) {
 
 // Protected routes
 export const config = {
-  matcher: ["/", "/tagForm"],
+  matcher: ["/main"],
 };
