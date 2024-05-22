@@ -22,7 +22,6 @@ export const WordForm = () => {
           <FormControl>
             <TextField
               fullWidth
-              id="1"
               label="Word or concept"
               variant="outlined"
               helperText="Insert here the word or concept to translate"
