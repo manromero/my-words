@@ -1,7 +1,5 @@
 import TextField from "@mui/material/TextField";
 import Box from "@mui/material/Box";
-import Select from "@mui/material/Select";
-import MenuItem from "@mui/material/MenuItem";
 import InputLabel from "@mui/material/InputLabel";
 import FormControl from "@mui/material/FormControl";
 import FormHelperText from "@mui/material/FormHelperText";
@@ -13,6 +11,14 @@ import AutoFixHighIcon from "@mui/icons-material/AutoFixHigh";
 import IconButton from "@mui/material/IconButton";
 import InputAdornment from "@mui/material/InputAdornment";
 import OutlinedInput from "@mui/material/OutlinedInput";
+import {
+  Checkbox,
+  Chip,
+  FormControlLabel,
+  FormGroup,
+  FormLabel,
+} from "@mui/material";
+import { MOCK_TAGS } from "@/mock";
 
 export const WordForm = () => {
   return (
@@ -61,13 +67,17 @@ export const WordForm = () => {
               helperText="Insert here help notes"
             />
           </FormControl>
-          <FormControl fullWidth>
-            <InputLabel htmlFor="input-word-tag">Tags</InputLabel>
-            <Select id="input-word-tag" label="Tags:" variant="outlined">
-              <MenuItem value={10}>Ten</MenuItem>
-              <MenuItem value={20}>Twenty</MenuItem>
-              <MenuItem value={30}>Thirty</MenuItem>
-            </Select>
+          <FormControl fullWidth component="fieldset" variant="outlined">
+            <FormLabel component="legend">Tags</FormLabel>
+            <FormGroup sx={{ display: "flex", flexDirection: "row" }}>
+              {MOCK_TAGS.map((tag) => (
+                <FormControlLabel
+                  key={tag.label}
+                  control={<Checkbox />}
+                  label={<Chip label={tag.label} color={tag.color as any} />}
+                />
+              ))}
+            </FormGroup>
             <FormHelperText>Select one or more tags</FormHelperText>
           </FormControl>
           <Stack direction="row" justifyContent="flex-end" spacing={2}>
