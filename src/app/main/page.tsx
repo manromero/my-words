@@ -18,7 +18,7 @@ import {
   InputLabel,
   OutlinedInput,
 } from "@mui/material";
-import { WordList } from "@/components";
+import { LoginLayout, WordList } from "@/components";
 
 export const MainPage = () => {
   const [filterExpanded, setFilterExpanded] = React.useState(false);
@@ -27,54 +27,56 @@ export const MainPage = () => {
     setFilterExpanded(!filterExpanded);
   };
   return (
-    <Box>
-      <FormControl variant="outlined" fullWidth>
-        <InputLabel htmlFor="input-filter-words">
-          Filter word or concept
-        </InputLabel>
-        <OutlinedInput
-          fullWidth
-          label="Filter word or concept"
-          id="input-filter-words"
-          endAdornment={
-            <InputAdornment position="end">
-              <IconButton
-                color="primary"
-                aria-label="Click here to autogenerate a translation"
-                onClick={handleFilterClick}
-              >
-                <SettingsIcon />
-              </IconButton>
-            </InputAdornment>
-          }
-        />
-      </FormControl>
-      <Collapse in={filterExpanded}>
-        <Container
-          maxWidth={false}
-          sx={{
-            width: "100%",
-            marginTop: 1,
-            padding: 2,
-            borderRadius: 1,
-            borderStyle: "solid",
-            borderWidth: 1,
-            borderColor: "primary.light",
-          }}
-        >
-          <FormGroup sx={{ display: "flex", flexDirection: "row" }}>
-            {MOCK_TAGS.map((tag) => (
-              <FormControlLabel
-                key={tag.label}
-                control={<Checkbox />}
-                label={<Chip label={tag.label} color={tag.color as any} />}
-              />
-            ))}
-          </FormGroup>
-        </Container>
-      </Collapse>
-      <WordList />
-    </Box>
+    <LoginLayout>
+      <Box>
+        <FormControl variant="outlined" fullWidth>
+          <InputLabel htmlFor="input-filter-words">
+            Filter word or concept
+          </InputLabel>
+          <OutlinedInput
+            fullWidth
+            label="Filter word or concept"
+            id="input-filter-words"
+            endAdornment={
+              <InputAdornment position="end">
+                <IconButton
+                  color="primary"
+                  aria-label="Click here to autogenerate a translation"
+                  onClick={handleFilterClick}
+                >
+                  <SettingsIcon />
+                </IconButton>
+              </InputAdornment>
+            }
+          />
+        </FormControl>
+        <Collapse in={filterExpanded}>
+          <Container
+            maxWidth={false}
+            sx={{
+              width: "100%",
+              marginTop: 1,
+              padding: 2,
+              borderRadius: 1,
+              borderStyle: "solid",
+              borderWidth: 1,
+              borderColor: "primary.light",
+            }}
+          >
+            <FormGroup sx={{ display: "flex", flexDirection: "row" }}>
+              {MOCK_TAGS.map((tag) => (
+                <FormControlLabel
+                  key={tag.label}
+                  control={<Checkbox />}
+                  label={<Chip label={tag.label} color={tag.color as any} />}
+                />
+              ))}
+            </FormGroup>
+          </Container>
+        </Collapse>
+        <WordList />
+      </Box>
+    </LoginLayout>
   );
 };
 
