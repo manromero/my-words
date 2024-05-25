@@ -1,58 +1,101 @@
 "use client";
 
+import * as React from "react";
 import Box from "@mui/material/Box";
-import {
-  AppBar,
-  Drawer,
-  IconButton,
-  Toolbar,
-  Typography,
-  useMediaQuery,
-  useTheme,
-} from "@mui/material";
-import { useState } from "react";
+import Drawer from "@mui/material/Drawer";
+import AppBar from "@mui/material/AppBar";
+import Toolbar from "@mui/material/Toolbar";
+import List from "@mui/material/List";
+import Typography from "@mui/material/Typography";
+import Divider from "@mui/material/Divider";
+import ListItem from "@mui/material/ListItem";
+import ListItemButton from "@mui/material/ListItemButton";
+import ListItemIcon from "@mui/material/ListItemIcon";
+import ListItemText from "@mui/material/ListItemText";
+import InboxIcon from "@mui/icons-material/MoveToInbox";
+import MailIcon from "@mui/icons-material/Mail";
+import { IconButton, useMediaQuery, useTheme } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
+
+const drawerWidthDesktop = 240;
+const drawerWidthMobile = "100%";
 
 export const LoginLayout = (props: React.PropsWithChildren) => {
   const theme = useTheme();
-  const tabletOrDown = useMediaQuery(theme.breakpoints.down("lg"));
-  const [openDrawer, setOpenDrawer] = useState(false);
+  const mobile = useMediaQuery(theme.breakpoints.down("lg"));
+  const [openDrawer, setOpenDrawer] = React.useState(false);
+
+  const drawerWidth = mobile ? drawerWidthMobile : drawerWidthDesktop;
 
   return (
-    <>
-      <Box sx={{ flexGrow: 1 }}>
-        <AppBar position="static">
-          <Toolbar>
-            {tabletOrDown && (
-              <IconButton
-                size="large"
-                edge="start"
-                color="inherit"
-                aria-label="menu"
-                sx={{ mr: 2 }}
-                onClick={() => setOpenDrawer(!openDrawer)}
-              >
-                <MenuIcon />
-              </IconButton>
-            )}
-
-            <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-              My Words
-            </Typography>
-          </Toolbar>
-        </AppBar>
-      </Box>
+    <Box sx={{ display: "flex" }}>
+      <AppBar
+        position="fixed"
+        sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}
+      >
+        <Toolbar>
+          {mobile && (
+            <IconButton
+              size="large"
+              edge="start"
+              color="inherit"
+              aria-label="menu"
+              sx={{ mr: 2 }}
+              onClick={() => setOpenDrawer(!openDrawer)}
+            >
+              <MenuIcon />
+            </IconButton>
+          )}
+          <Typography variant="h6" noWrap component="div">
+            My Words
+          </Typography>
+        </Toolbar>
+      </AppBar>
       <Drawer
+        variant={mobile ? undefined : "permanent"}
         anchor="left"
+        sx={{
+          width: drawerWidth,
+          flexShrink: 0,
+          [`& .MuiDrawer-paper`]: {
+            width: drawerWidth,
+            boxSizing: "border-box",
+          },
+        }}
         open={openDrawer}
         onClose={() => setOpenDrawer(false)}
       >
-        <div>Menu item</div>
-        <div>Menu item</div>
-        <div>Menu item</div>
-        <div>Menu item</div>
+        <Toolbar />
+        <Box sx={{ overflow: "auto" }}>
+          <List>
+            {["Inbox", "Starred", "Send email", "Drafts"].map((text, index) => (
+              <ListItem key={text} disablePadding>
+                <ListItemButton>
+                  <ListItemIcon>
+                    {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                  </ListItemIcon>
+                  <ListItemText primary={text} />
+                </ListItemButton>
+              </ListItem>
+            ))}
+          </List>
+          <Divider />
+          <List>
+            <ListItem disablePadding>
+              <ListItemButton>
+                <ListItemIcon>
+                  <InboxIcon />
+                </ListItemIcon>
+                <ListItemText primary="Config" />
+              </ListItemButton>
+            </ListItem>
+          </List>
+        </Box>
       </Drawer>
-      <Box padding={1}>{props.children}</Box>
-    </>
+      <Box component="main" sx={{ flexGrow: 1, p: 2 }}>
+        <Toolbar />
+        {props.children}
+      </Box>
+    </Box>
   );
 };
