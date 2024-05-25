@@ -31,5 +31,5 @@ export async function middleware(request: NextRequest, response: any) {
 
 // Protected routes
 export const config = {
-  matcher: ["/main"],
+  matcher: ["/private/:path*"],
 };

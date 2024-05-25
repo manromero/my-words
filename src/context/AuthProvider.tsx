@@ -46,7 +46,7 @@ export const AuthProvider = ({ children }: TAuthProvider): JSX.Element => {
         if (idToken) {
           document.cookie = `${NEXT_PUBLIC_COOKIE_SESSION_NAME}=${idToken}`;
           // TODO should be hardcoded ?
-          router.push("/main");
+          router.push("/private/main");
         }
       })
       .catch(() => {

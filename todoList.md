@@ -1,0 +1,11 @@
+- Logout button
+- Logout Logic
+- Fetch tags
+- Create tags
+- Edit tags
+- Delete tags
+- Fetch words
+- Create words
+- Edit words
+- Delete words
+- Filters words
