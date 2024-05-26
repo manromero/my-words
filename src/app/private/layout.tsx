@@ -14,8 +14,10 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import InboxIcon from "@mui/icons-material/MoveToInbox";
 import MailIcon from "@mui/icons-material/Mail";
-import { IconButton, useMediaQuery, useTheme } from "@mui/material";
+import { Button, IconButton, useMediaQuery, useTheme } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
+import LogoutIcon from "@mui/icons-material/Logout";
+import { useAuth } from "@/hooks";
 
 const drawerWidthDesktop = 240;
 const drawerWidthMobile = "100%";
@@ -28,6 +30,7 @@ export default function PrivateLayout({
   const theme = useTheme();
   const mobile = useMediaQuery(theme.breakpoints.down("lg"));
   const [openDrawer, setOpenDrawer] = React.useState(false);
+  const { signOut } = useAuth();
 
   const drawerWidth = mobile ? drawerWidthMobile : drawerWidthDesktop;
 
@@ -53,6 +56,27 @@ export default function PrivateLayout({
           <Typography variant="h6" noWrap component="div">
             My Words
           </Typography>
+          {mobile ? (
+            <IconButton
+              size="large"
+              edge="start"
+              color="inherit"
+              aria-label="Logout"
+              sx={{ marginLeft: "auto" }}
+              onClick={signOut}
+            >
+              <LogoutIcon />
+            </IconButton>
+          ) : (
+            <Button
+              color="inherit"
+              sx={{ marginLeft: "auto" }}
+              endIcon={<LogoutIcon />}
+              onClick={signOut}
+            >
+              Logout
+            </Button>
+          )}
         </Toolbar>
       </AppBar>
       <Drawer

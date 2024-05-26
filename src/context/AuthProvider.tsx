@@ -26,11 +26,16 @@ export const AuthProvider = ({ children }: TAuthProvider): JSX.Element => {
     setUser(_user);
   };
 
-  const handleSignOut = () => {
-    clientAuth
-      .signOut()
-      .then(() => window.alert("Log out successfully"))
-      .catch(() => window.alert("Unexpected error loging out"));
+  const handleSignOut = async () => {
+    try {
+      await clientAuth.signOut();
+    } catch (e) {
+      console.log("Error: ", e);
+    } finally {
+      // Delete cookie
+      document.cookie = `${NEXT_PUBLIC_COOKIE_SESSION_NAME}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
+      router.push("/");
+    }
   };
 
   const handleSignInWithGoogle = () => {

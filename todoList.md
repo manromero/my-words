@@ -1,5 +1,3 @@
-- Logout button
-- Logout Logic
 - Fetch tags
 - Create tags
 - Edit tags
