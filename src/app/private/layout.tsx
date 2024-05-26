@@ -28,6 +28,7 @@ export default function PrivateLayout({
   children: React.ReactNode;
 }>) {
   const theme = useTheme();
+  // TODO MANROMERO todo change to use css breakpoints: https://mui.com/system/display/#hiding-elements
   const mobile = useMediaQuery(theme.breakpoints.down("lg"));
   const [openDrawer, setOpenDrawer] = React.useState(false);
   const { signOut } = useAuth();
