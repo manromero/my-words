@@ -19,9 +19,6 @@ import MenuIcon from "@mui/icons-material/Menu";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { useAuth } from "@/hooks";
 
-const drawerWidthDesktop = 240;
-const drawerWidthMobile = "100%";
-
 export default function PrivateLayout({
   children,
 }: Readonly<{
@@ -32,8 +29,6 @@ export default function PrivateLayout({
   const mobile = useMediaQuery(theme.breakpoints.down("lg"));
   const [openDrawer, setOpenDrawer] = React.useState(false);
   const { signOut } = useAuth();
-
-  const drawerWidth = mobile ? drawerWidthMobile : drawerWidthDesktop;
 
   return (
     <Box sx={{ display: "flex" }}>
@@ -80,20 +75,7 @@ export default function PrivateLayout({
           )}
         </Toolbar>
       </AppBar>
-      <Drawer
-        variant={mobile ? undefined : "permanent"}
-        anchor="left"
-        sx={{
-          width: drawerWidth,
-          flexShrink: 0,
-          [`& .MuiDrawer-paper`]: {
-            width: drawerWidth,
-            boxSizing: "border-box",
-          },
-        }}
-        open={openDrawer}
-        onClose={() => setOpenDrawer(false)}
-      >
+      <DrawerMenu open={openDrawer} onClose={() => setOpenDrawer(false)}>
         <Toolbar />
         <Box sx={{ overflow: "auto" }}>
           <List>
@@ -120,7 +102,7 @@ export default function PrivateLayout({
             </ListItem>
           </List>
         </Box>
-      </Drawer>
+      </DrawerMenu>
       <Box component="main" sx={{ flexGrow: 1, p: 2 }}>
         <Toolbar />
         {children}
@@ -128,3 +110,55 @@ export default function PrivateLayout({
     </Box>
   );
 }
+
+type DrawerMenuType = {
+  open?: boolean;
+  onClose?: () => void;
+};
+
+export const DrawerMenu = (props: React.PropsWithChildren<DrawerMenuType>) => {
+  return (
+    <>
+      {/* Drawer Mobile */}
+      <Drawer
+        sx={{
+          display: {
+            xs: "block",
+            lg: "none",
+          },
+          width: "100%",
+          flexShrink: 0,
+          [`& .MuiDrawer-paper`]: {
+            width: "100%",
+            boxSizing: "border-box",
+          },
+        }}
+        open={props.open}
+        onClose={props.onClose}
+      >
+        {props.children}
+      </Drawer>
+      {/* Drawer Desktop */}
+      <Drawer
+        variant="permanent"
+        anchor="left"
+        sx={{
+          width: 240,
+          display: {
+            xs: "none",
+            lg: "block",
+          },
+          flexShrink: 0,
+          [`& .MuiDrawer-paper`]: {
+            width: 240,
+            boxSizing: "border-box",
+          },
+        }}
+        open={props.open}
+        onClose={props.onClose}
+      >
+        {props.children}
+      </Drawer>
+    </>
+  );
+};

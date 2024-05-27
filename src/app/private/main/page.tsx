@@ -20,7 +20,7 @@ import {
 } from "@mui/material";
 import { WordList } from "@/components";
 
-export const MainPage = () => {
+export default function MainPage() {
   const [filterExpanded, setFilterExpanded] = React.useState(false);
 
   const handleFilterClick = () => {
@@ -76,6 +76,4 @@ export const MainPage = () => {
       <WordList />
     </Box>
   );
-};
-
-export default MainPage;
+}
