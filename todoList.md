@@ -7,4 +7,3 @@
 - Edit words
 - Delete words
 - Filters words
-- change to use css mediaquery
