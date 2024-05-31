@@ -8,9 +8,8 @@ import {
   signInWithCredential,
   signInWithPopup,
 } from "firebase/auth";
-import { clientAuth, db } from "@/firebase/client-config";
+import { clientAuth } from "@/firebase/client-config";
 import { useRouter } from "next/navigation";
-import { collection, query, getDocs } from "firebase/firestore";
 import { ROUTES } from "@/routes";
 
 const NEXT_PUBLIC_COOKIE_SESSION_NAME =
@@ -64,18 +63,6 @@ export const AuthProvider = ({ children }: TAuthProvider): JSX.Element => {
   useEffect(() => {
     const subscriber = clientAuth.onAuthStateChanged(onAuthStateChanged);
     return subscriber;
-  }, []);
-
-  // TODO MANROMERO cambiar
-  useEffect(() => {
-    const fetchData = async () => {
-      const q = query(collection(db, "words"));
-      const querySnapshot = await getDocs(q);
-      querySnapshot.forEach((doc) => {
-        console.log(doc.id, " => ", doc.data());
-      });
-    };
-    fetchData();
   }, []);
 
   return (

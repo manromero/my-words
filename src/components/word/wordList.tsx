@@ -5,11 +5,18 @@ import ListItemButton from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
 import Divider from "@mui/material/Divider";
 import React from "react";
+import { WordType } from "@/types";
 
-export const WordList = () => {
+type WordListType = {
+  words: WordType[];
+  loading: boolean;
+  error: boolean;
+};
+
+export const WordList = (props: WordListType) => {
   return (
     <List>
-      {MOCK_WORDS.map((word) => (
+      {props.words.map((word) => (
         <React.Fragment key={word.word}>
           <Divider variant="fullWidth" component="li" />
           <ListItem disablePadding>

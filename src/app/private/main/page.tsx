@@ -19,13 +19,16 @@ import {
   OutlinedInput,
 } from "@mui/material";
 import { WordList } from "@/components";
+import { useWords } from "@/hooks";
 
 export default function MainPage() {
   const [filterExpanded, setFilterExpanded] = React.useState(false);
+  const { data, error, loading } = useWords();
 
   const handleFilterClick = () => {
     setFilterExpanded(!filterExpanded);
   };
+
   return (
     <Box>
       <FormControl variant="outlined" fullWidth>
@@ -73,7 +76,7 @@ export default function MainPage() {
           </FormGroup>
         </Container>
       </Collapse>
-      <WordList />
+      <WordList words={data} loading={loading} error={error} />
     </Box>
   );
 }
