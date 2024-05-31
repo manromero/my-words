@@ -31,12 +31,13 @@ export const AuthProvider = ({ children }: TAuthProvider): JSX.Element => {
   const handleSignOut = async () => {
     try {
       await clientAuth.signOut();
-    } catch (e) {
-      console.log("Error: ", e);
-    } finally {
       // Delete cookie
       document.cookie = `${NEXT_PUBLIC_COOKIE_SESSION_NAME}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
       router.push("/");
+    } catch (e) {
+      console.log("Error: ", e);
+      // TODO MANROMERO some kind of alert
+      window.alert("Unexpected error when logout");
     }
   };
 
