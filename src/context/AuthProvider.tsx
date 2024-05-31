@@ -8,8 +8,10 @@ import {
   signInWithCredential,
   signInWithPopup,
 } from "firebase/auth";
-import { clientAuth } from "@/firebase/client-config";
+import { clientAuth, db } from "@/firebase/client-config";
 import { useRouter } from "next/navigation";
+import { collection, query, getDocs } from "firebase/firestore";
+import { ROUTES } from "@/routes";
 
 const NEXT_PUBLIC_COOKIE_SESSION_NAME =
   process.env.NEXT_PUBLIC_COOKIE_SESSION_NAME ?? "";
@@ -50,8 +52,7 @@ export const AuthProvider = ({ children }: TAuthProvider): JSX.Element => {
         const idToken = await userCred.user.getIdToken();
         if (idToken) {
           document.cookie = `${NEXT_PUBLIC_COOKIE_SESSION_NAME}=${idToken}`;
-          // TODO should be hardcoded ?
-          router.push("/private/main");
+          router.push(ROUTES.PRIVATE_MAIN);
         }
       })
       .catch(() => {
@@ -62,6 +63,18 @@ export const AuthProvider = ({ children }: TAuthProvider): JSX.Element => {
   useEffect(() => {
     const subscriber = clientAuth.onAuthStateChanged(onAuthStateChanged);
     return subscriber;
+  }, []);
+
+  // TODO MANROMERO cambiar
+  useEffect(() => {
+    const fetchData = async () => {
+      const q = query(collection(db, "words"));
+      const querySnapshot = await getDocs(q);
+      querySnapshot.forEach((doc) => {
+        console.log(doc.id, " => ", doc.data());
+      });
+    };
+    fetchData();
   }, []);
 
   return (

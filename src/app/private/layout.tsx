@@ -10,7 +10,7 @@ import Divider from "@mui/material/Divider";
 
 import { useAuth } from "@/hooks";
 import { DrawerMenu, LogoutButton, MenuButton, MenuItem } from "@/components";
-import { ROUTES } from "@/routes";
+import { MENU_ITEMS } from "@/routes";
 
 export default function PrivateLayout({
   children,
@@ -39,13 +39,13 @@ export default function PrivateLayout({
         <Toolbar />
         <Box sx={{ overflow: "auto" }}>
           <List>
-            {ROUTES.filter((r) => r.primarySection).map((route) => (
+            {MENU_ITEMS.filter((r) => r.primarySection).map((route) => (
               <MenuItem key={route.label} {...route} />
             ))}
           </List>
           <Divider />
           <List>
-            {ROUTES.filter((r) => r.secondarySection).map((route) => (
+            {MENU_ITEMS.filter((r) => r.secondarySection).map((route) => (
               <MenuItem key={route.label} {...route} />
             ))}
           </List>

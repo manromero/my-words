@@ -1,5 +1,6 @@
 import { getApp, getApps, initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
+import { getFirestore } from "firebase/firestore";
 
 const firebaseApiKey = process.env.NEXT_PUBLIC_FIREBASE_API_KEY;
 const firebaseAuthDomain = process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN;
@@ -24,5 +25,6 @@ const clientApp =
 
 // Initialize firebase auth
 const clientAuth = getAuth(clientApp);
+const db = getFirestore(clientApp);
 
-export { clientAuth };
+export { clientAuth, db };
