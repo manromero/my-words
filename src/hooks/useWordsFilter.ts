@@ -19,8 +19,6 @@ export const useWordsFilter = (
     setSearchText(e.target.value);
   };
 
-  console.log({ searchText });
-
   const searchFilteredLowerCase = searchText.toLowerCase();
   const wordsFiltered = props.words.filter(({ word, translation, notes }) => {
     return (
@@ -29,8 +27,6 @@ export const useWordsFilter = (
       notes?.toLowerCase()?.includes(searchFilteredLowerCase)
     );
   });
-
-  console.log({ wordsFiltered });
 
   return {
     wordsFiltered,

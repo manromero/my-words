@@ -2,16 +2,20 @@ import { MOCK_TAGS } from "@/mock";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
-import ListItemText from "@mui/material/ListItemText";
 import Divider from "@mui/material/Divider";
 import React from "react";
 import { Chip } from "@mui/material";
+import { TagType } from "@/types";
 
-export const TagList = () => {
+type TagListType = {
+  tags: TagType[];
+};
+
+export const TagList = (props: TagListType) => {
   return (
     <List>
-      {MOCK_TAGS.map((tag) => (
-        <React.Fragment key={tag.label}>
+      {props.tags.map((tag) => (
+        <React.Fragment key={tag.id}>
           <Divider variant="fullWidth" component="li" />
           <ListItem disablePadding>
             <ListItemButton>

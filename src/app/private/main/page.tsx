@@ -23,7 +23,7 @@ import { useData, useWordsFilter } from "@/hooks";
 
 export default function MainPage() {
   const [filterExpanded, setFilterExpanded] = React.useState(false);
-  const { words } = useData();
+  const { words, tags } = useData();
   const { onChangeSearchText, wordsFiltered } = useWordsFilter({
     words: words.data,
   });
@@ -70,7 +70,7 @@ export default function MainPage() {
           }}
         >
           <FormGroup sx={{ display: "flex", flexDirection: "row" }}>
-            {MOCK_TAGS.map((tag) => (
+            {tags.data.map((tag) => (
               <FormControlLabel
                 key={tag.label}
                 control={<Checkbox />}

@@ -1,10 +1,11 @@
 "use client";
 
 import { createContext } from "react";
-import { UseWordsResponseType } from "../../hooks";
+import { UseTagsResponseType, UseWordsResponseType } from "../../hooks";
 
 type DataContextType = {
   words: UseWordsResponseType;
+  tags: UseTagsResponseType;
 };
 
 export const DataContext = createContext({} as DataContextType);

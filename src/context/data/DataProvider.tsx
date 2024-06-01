@@ -4,7 +4,7 @@ import React from "react";
 
 import { DataContext } from "./DataContext";
 
-import { useWords } from "../../hooks";
+import { useTags, useWords } from "../../hooks";
 
 type DataProviderType = {
   children: React.ReactNode;
@@ -12,7 +12,10 @@ type DataProviderType = {
 
 export const DataProvider = ({ children }: DataProviderType): JSX.Element => {
   const words = useWords();
+  const tags = useTags();
   return (
-    <DataContext.Provider value={{ words }}>{children}</DataContext.Provider>
+    <DataContext.Provider value={{ words, tags }}>
+      {children}
+    </DataContext.Provider>
   );
 };
