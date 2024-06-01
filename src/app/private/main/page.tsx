@@ -24,8 +24,14 @@ import { useData, useWordsFilter } from "@/hooks";
 export default function MainPage() {
   const [filterExpanded, setFilterExpanded] = React.useState(false);
   const { words, tags } = useData();
-  const { onChangeSearchText, wordsFiltered } = useWordsFilter({
+  const {
+    onChangeSearchText,
+    onChangeCheckboxTag,
+    wordsFiltered,
+    checkboxTags,
+  } = useWordsFilter({
     words: words.data,
+    tags: tags.data,
   });
 
   const handleFilterClick = () => {
@@ -70,10 +76,12 @@ export default function MainPage() {
           }}
         >
           <FormGroup sx={{ display: "flex", flexDirection: "row" }}>
-            {tags.data.map((tag) => (
+            {checkboxTags.map((tag) => (
               <FormControlLabel
-                key={tag.label}
-                control={<Checkbox />}
+                key={tag.id}
+                control={
+                  <Checkbox value={tag.id} onChange={onChangeCheckboxTag} />
+                }
                 label={<Chip label={tag.label} color={tag.color as any} />}
               />
             ))}
