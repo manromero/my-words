@@ -17,7 +17,7 @@ export const WordList = (props: WordListType) => {
   return (
     <List>
       {props.words.map((word) => (
-        <React.Fragment key={word.word}>
+        <React.Fragment key={word.id}>
           <Divider variant="fullWidth" component="li" />
           <ListItem disablePadding>
             <ListItemButton>

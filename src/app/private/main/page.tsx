@@ -19,11 +19,14 @@ import {
   OutlinedInput,
 } from "@mui/material";
 import { WordList } from "@/components";
-import { useData } from "@/hooks";
+import { useData, useWordsFilter } from "@/hooks";
 
 export default function MainPage() {
   const [filterExpanded, setFilterExpanded] = React.useState(false);
   const { words } = useData();
+  const { onChangeSearchText, wordsFiltered } = useWordsFilter({
+    words: words.data,
+  });
 
   const handleFilterClick = () => {
     setFilterExpanded(!filterExpanded);
@@ -39,6 +42,7 @@ export default function MainPage() {
           fullWidth
           label="Filter word or concept"
           id="input-filter-words"
+          onChange={onChangeSearchText}
           endAdornment={
             <InputAdornment position="end">
               <IconButton
@@ -77,7 +81,7 @@ export default function MainPage() {
         </Container>
       </Collapse>
       <WordList
-        words={words.data}
+        words={wordsFiltered}
         loading={words.loading}
         error={words.error}
       />
