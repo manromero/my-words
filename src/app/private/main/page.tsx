@@ -19,11 +19,11 @@ import {
   OutlinedInput,
 } from "@mui/material";
 import { WordList } from "@/components";
-import { useWords } from "@/hooks";
+import { useData } from "@/hooks";
 
 export default function MainPage() {
   const [filterExpanded, setFilterExpanded] = React.useState(false);
-  const { data, error, loading } = useWords();
+  const { words } = useData();
 
   const handleFilterClick = () => {
     setFilterExpanded(!filterExpanded);
@@ -76,7 +76,11 @@ export default function MainPage() {
           </FormGroup>
         </Container>
       </Collapse>
-      <WordList words={data} loading={loading} error={error} />
+      <WordList
+        words={words.data}
+        loading={words.loading}
+        error={words.error}
+      />
     </Box>
   );
 }

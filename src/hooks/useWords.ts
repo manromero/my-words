@@ -10,13 +10,12 @@ import {
 } from "firebase/firestore";
 import { db } from "@/firebase/client-config";
 
-type UseWordsResponseType = {
+export type UseWordsResponseType = {
   data: WordType[];
   loading: boolean;
   error: boolean;
 };
 
-// TODO MANROMERO MANROMERO create a data provider that wrapp all the login part
 export const useWords = (): UseWordsResponseType => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
