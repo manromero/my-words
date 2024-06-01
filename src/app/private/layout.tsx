@@ -42,13 +42,21 @@ export default function PrivateLayout({
           <Box sx={{ overflow: "auto" }}>
             <List>
               {MENU_ITEMS.filter((r) => r.primarySection).map((route) => (
-                <MenuItem key={route.label} {...route} />
+                <MenuItem
+                  key={route.label}
+                  {...route}
+                  onClick={() => setOpenDrawer(false)}
+                />
               ))}
             </List>
             <Divider />
             <List>
               {MENU_ITEMS.filter((r) => r.secondarySection).map((route) => (
-                <MenuItem key={route.label} {...route} />
+                <MenuItem
+                  key={route.label}
+                  {...route}
+                  onClick={() => setOpenDrawer(false)}
+                />
               ))}
             </List>
           </Box>

@@ -12,12 +12,17 @@ type MenuItemType = {
   label: string;
   icon: React.JSX.Element;
   path: string;
+  onClick: () => void;
 };
 
 export const MenuItem = (props: MenuItemType) => {
   return (
     <ListItem>
-      <ListItemButton href={props.path} LinkComponent={NextLink}>
+      <ListItemButton
+        href={props.path}
+        LinkComponent={NextLink}
+        onClick={props.onClick}
+      >
         <ListItemIcon>{props.icon}</ListItemIcon>
         <ListItemText primary={props.label} />
       </ListItemButton>
