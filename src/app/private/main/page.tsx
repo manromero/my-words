@@ -17,9 +17,12 @@ import {
   InputAdornment,
   InputLabel,
   OutlinedInput,
+  Stack,
 } from "@mui/material";
 import { WordList } from "@/components";
 import { useData, useWordsFilter } from "@/hooks";
+import NextLink from "next/link";
+import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 
 export default function MainPage() {
   const [filterExpanded, setFilterExpanded] = React.useState(false);
@@ -40,28 +43,38 @@ export default function MainPage() {
 
   return (
     <Box>
-      <FormControl variant="outlined" fullWidth>
-        <InputLabel htmlFor="input-filter-words">
-          Filter word or concept
-        </InputLabel>
-        <OutlinedInput
-          fullWidth
-          label="Filter word or concept"
-          id="input-filter-words"
-          onChange={onChangeSearchText}
-          endAdornment={
-            <InputAdornment position="end">
-              <IconButton
-                color="primary"
-                aria-label="Click here to autogenerate a translation"
-                onClick={handleFilterClick}
-              >
-                <SettingsIcon />
-              </IconButton>
-            </InputAdornment>
-          }
-        />
-      </FormControl>
+      <Stack direction="row" spacing={2}>
+        <FormControl variant="outlined" fullWidth>
+          <InputLabel htmlFor="input-filter-words">
+            Filter word or concept
+          </InputLabel>
+          <OutlinedInput
+            fullWidth
+            label="Filter word or concept"
+            id="input-filter-words"
+            onChange={onChangeSearchText}
+            endAdornment={
+              <InputAdornment position="end">
+                <IconButton
+                  color="primary"
+                  aria-label="Click here to autogenerate a translation"
+                  onClick={handleFilterClick}
+                >
+                  <SettingsIcon />
+                </IconButton>
+              </InputAdornment>
+            }
+          />
+        </FormControl>
+        <IconButton
+          color="primary"
+          aria-label="Create a new word"
+          href="/private/word"
+          LinkComponent={NextLink}
+        >
+          <AddCircleOutlineIcon />
+        </IconButton>
+      </Stack>
       <Collapse in={filterExpanded}>
         <Container
           maxWidth={false}
