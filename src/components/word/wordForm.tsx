@@ -13,21 +13,43 @@ import IconButton from "@mui/material/IconButton";
 import InputAdornment from "@mui/material/InputAdornment";
 import OutlinedInput from "@mui/material/OutlinedInput";
 import {
+  Alert,
+  AlertColor,
   Checkbox,
   Chip,
   FormControlLabel,
   FormGroup,
   FormLabel,
+  Snackbar,
 } from "@mui/material";
 import { useAuth, useData, useWord } from "@/hooks";
 import { Formik } from "formik";
 import * as Yup from "yup";
+import { useState } from "react";
 
 export const WordForm = () => {
   const { tags } = useData();
   const { user } = useAuth();
 
   const { createWord, updateWord } = useWord();
+  const [snackbar, setSnackbar] = useState<
+    | {
+        severity: AlertColor;
+        message: string;
+      }
+    | undefined
+  >();
+
+  const handleSnackbarClose = (
+    _event: React.SyntheticEvent | Event,
+    reason?: string
+  ) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setSnackbar(undefined);
+  };
 
   return (
     <Formik
@@ -45,19 +67,27 @@ export const WordForm = () => {
         console.log(wordDTO);
         if (id) {
           try {
-            const docRef = await updateWord({ ...wordDTO, id: id as string });
-            // TODO MANROMERO it works, continue
-            setSubmitting(false);
+            await updateWord({ ...wordDTO, id: id as string });
+            setSnackbar({ severity: "success", message: "Word updated!" });
           } catch (error) {
-            console.log("error", error);
+            setSnackbar({
+              severity: "error",
+              message: "Error when updating the word",
+            });
+          } finally {
+            setSubmitting(false);
           }
         } else {
           try {
-            // TODO MANROMERO it works, continue
-            const docRef = await createWord(wordDTO);
-            setSubmitting(false);
+            await createWord(wordDTO);
+            setSnackbar({ severity: "success", message: "Word created!" });
           } catch (error) {
-            console.log("error", error);
+            setSnackbar({
+              severity: "error",
+              message: "Error when creating the word",
+            });
+          } finally {
+            setSubmitting(false);
           }
         }
       }}
@@ -82,6 +112,20 @@ export const WordForm = () => {
 
         return (
           <form onSubmit={handleSubmit}>
+            <Snackbar
+              open={snackbar !== undefined}
+              onClose={handleSnackbarClose}
+              autoHideDuration={5000}
+            >
+              <Alert
+                onClose={handleSnackbarClose}
+                severity={snackbar?.severity}
+                variant="filled"
+                sx={{ width: "100%" }}
+              >
+                {snackbar?.message}
+              </Alert>
+            </Snackbar>
             <Stack direction="column" spacing={2}>
               <FormControl>
                 <TextField
