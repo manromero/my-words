@@ -1,4 +1,3 @@
-import { MOCK_WORDS } from "@/mock";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
