@@ -1,7 +1,6 @@
 "use client";
 
 import TextField from "@mui/material/TextField";
-import Box from "@mui/material/Box";
 import InputLabel from "@mui/material/InputLabel";
 import FormControl from "@mui/material/FormControl";
 import FormHelperText from "@mui/material/FormHelperText";
@@ -20,15 +19,15 @@ import {
   FormGroup,
   FormLabel,
 } from "@mui/material";
-import { useAuth, useData } from "@/hooks";
+import { useAuth, useData, useWord } from "@/hooks";
 import { Formik } from "formik";
 import * as Yup from "yup";
-import { addDoc, collection } from "firebase/firestore";
-import { db } from "@/firebase/client-config";
 
 export const WordForm = () => {
   const { tags } = useData();
   const { user } = useAuth();
+
+  const { createWord, updateWord } = useWord();
 
   return (
     <Formik
@@ -41,13 +40,13 @@ export const WordForm = () => {
         notes: Yup.string().max(500, "Must be 500 characters or less"),
       })}
       onSubmit={async (values, { setSubmitting }) => {
-        const id = null;
+        const id = undefined as string | undefined;
         const wordDTO = { ...values, userId: user?.uid };
         console.log(wordDTO);
         if (id) {
           try {
+            const docRef = await updateWord({ ...wordDTO, id: id as string });
             // TODO MANROMERO it works, continue
-            const docRef = await addDoc(collection(db, "words"), wordDTO);
             setSubmitting(false);
           } catch (error) {
             console.log("error", error);
@@ -55,7 +54,7 @@ export const WordForm = () => {
         } else {
           try {
             // TODO MANROMERO it works, continue
-            const docRef = await addDoc(collection(db, "words"), wordDTO);
+            const docRef = await createWord(wordDTO);
             setSubmitting(false);
           } catch (error) {
             console.log("error", error);

@@ -55,8 +55,9 @@ export const AuthProvider = ({ children }: TAuthProvider): JSX.Element => {
           router.push(ROUTES.PRIVATE_MAIN);
         }
       })
-      .catch(() => {
+      .catch((e) => {
         console.error("Login failed....");
+        console.error(e);
       });
   };
 
