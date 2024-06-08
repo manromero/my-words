@@ -49,7 +49,6 @@ export default function MainPage() {
   };
 
   const handleWordClick = (word: WordType) => {
-    console.log(word);
     setModalWord(word);
   };
 
