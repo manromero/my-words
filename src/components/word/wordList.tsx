@@ -10,6 +10,7 @@ type WordListType = {
   words: WordType[];
   loading: boolean;
   error: boolean;
+  onWordClick?: (word: WordType) => void;
 };
 
 export const WordList = (props: WordListType) => {
@@ -19,7 +20,7 @@ export const WordList = (props: WordListType) => {
         <React.Fragment key={word.id}>
           <Divider variant="fullWidth" component="li" />
           <ListItem disablePadding>
-            <ListItemButton>
+            <ListItemButton onClick={() => props.onWordClick?.(word)}>
               <ListItemText primary={word.word} secondary={word.translation} />
             </ListItemButton>
           </ListItem>

@@ -1,7 +1,7 @@
 "use client";
 
 import { MOCK_TAGS } from "@/mock";
-import React from "react";
+import React, { useState } from "react";
 import SettingsIcon from "@mui/icons-material/Settings";
 
 import Collapse from "@mui/material/Collapse";
@@ -19,14 +19,17 @@ import {
   OutlinedInput,
   Stack,
 } from "@mui/material";
-import { WordList } from "@/components";
+import { WordList, WordModalForm } from "@/components";
 import { useData, useWordsFilter } from "@/hooks";
 import NextLink from "next/link";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
+import { WordType } from "@/types";
 
 export default function MainPage() {
   const [filterExpanded, setFilterExpanded] = React.useState(false);
   const { words, tags } = useData();
+  const [modalWord, setModalWord] = useState<WordType | undefined>(undefined);
+
   const {
     onChangeSearchText,
     onChangeCheckboxTag,
@@ -39,6 +42,19 @@ export default function MainPage() {
 
   const handleFilterClick = () => {
     setFilterExpanded(!filterExpanded);
+  };
+
+  const handleCreateWordClick = () => {
+    setModalWord({ word: "", translation: "", notes: "", tags: [] });
+  };
+
+  const handleWordClick = (word: WordType) => {
+    console.log(word);
+    setModalWord(word);
+  };
+
+  const handleCloseModalForm = () => {
+    setModalWord(undefined);
   };
 
   return (
@@ -69,8 +85,7 @@ export default function MainPage() {
         <IconButton
           color="primary"
           aria-label="Create a new word"
-          href="/private/word"
-          LinkComponent={NextLink}
+          onClick={handleCreateWordClick}
         >
           <AddCircleOutlineIcon />
         </IconButton>
@@ -105,7 +120,9 @@ export default function MainPage() {
         words={wordsFiltered}
         loading={words.loading}
         error={words.error}
+        onWordClick={handleWordClick}
       />
+      <WordModalForm word={modalWord} onClose={handleCloseModalForm} />
     </Box>
   );
 }

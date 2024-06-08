@@ -42,7 +42,6 @@ const defaultWord: WordType = {
 export const WordForm = ({ word = defaultWord }: WordFormType) => {
   const { tags } = useData();
   const { user } = useAuth();
-
   const { createWord, updateWord } = useWord();
   const [snackbar, setSnackbar] = useState<
     | {
@@ -218,6 +217,7 @@ export const WordForm = ({ word = defaultWord }: WordFormType) => {
                       name="tags"
                       value={tag.id}
                       onChange={handleChange}
+                      checked={values.tags?.includes(tag.id as string)}
                     />
                   ))}
                 </FormGroup>
