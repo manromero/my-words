@@ -49,7 +49,7 @@ export default function MainPage() {
   };
 
   const handleWordClick = (word: WordType) => {
-    setModalWord(word);
+    setModalWord({ ...word });
   };
 
   const handleCloseModalForm = () => {
