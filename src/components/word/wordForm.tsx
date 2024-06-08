@@ -26,8 +26,20 @@ import { useAuth, useData, useWord } from "@/hooks";
 import { Formik } from "formik";
 import * as Yup from "yup";
 import { useState } from "react";
+import { WordType } from "@/types";
 
-export const WordForm = () => {
+type WordFormType = {
+  word?: WordType;
+};
+
+const defaultWord: WordType = {
+  word: "",
+  translation: "",
+  notes: "",
+  tags: [],
+};
+
+export const WordForm = ({ word = defaultWord }: WordFormType) => {
   const { tags } = useData();
   const { user } = useAuth();
 
@@ -53,7 +65,7 @@ export const WordForm = () => {
 
   return (
     <Formik
-      initialValues={{ word: "", translation: "", notes: "", tags: [] }}
+      initialValues={word}
       validationSchema={Yup.object({
         word: Yup.string()
           .max(100, "Must be 50 characters or less")
@@ -100,7 +112,6 @@ export const WordForm = () => {
         handleBlur,
         handleSubmit,
         isSubmitting,
-        /* and other goodies */
       }) => {
         const wordError = Boolean(errors.word && touched.word && errors.word);
         const translationError = Boolean(
