@@ -26,7 +26,7 @@ import { useAuth, useData, useWord } from "@/hooks";
 import { Formik } from "formik";
 import * as Yup from "yup";
 import { useState } from "react";
-import { WordType } from "@/types";
+import { WordType, WordWithIdType } from "@/types";
 
 type WordFormType = {
   word?: WordType;
@@ -37,6 +37,7 @@ const defaultWord: WordType = {
   translation: "",
   notes: "",
   tags: [],
+  id: undefined,
 };
 
 export const WordForm = ({ word = defaultWord }: WordFormType) => {
@@ -73,12 +74,11 @@ export const WordForm = ({ word = defaultWord }: WordFormType) => {
         notes: Yup.string().max(500, "Must be 500 characters or less"),
       })}
       onSubmit={async (values, { setSubmitting }) => {
-        const id = undefined as string | undefined;
         const wordDTO = { ...values, userId: user?.uid };
         console.log(wordDTO);
-        if (id) {
+        if (values.id) {
           try {
-            await updateWord({ ...wordDTO, id: id as string });
+            await updateWord(wordDTO as WordWithIdType);
             setSnackbar({ severity: "success", message: "Word updated!" });
           } catch (error) {
             setSnackbar({
