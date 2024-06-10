@@ -25,7 +25,6 @@ export const useWords = (): UseWordsResponseType => {
   const handleOnSnapShotResults = (query: QuerySnapshot<WordType>) => {
     setLoading(false);
     setError(false);
-    console.log("query", query.docs);
     const words = query.docs.map((doc) => {
       return { id: doc.id, ...doc.data() };
     });

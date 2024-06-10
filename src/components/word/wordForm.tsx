@@ -77,6 +77,7 @@ export const WordForm = ({ word = defaultWord, ...props }: WordFormType) => {
               severity: "success",
               message: "Word updated!",
             });
+            props.onEdit?.(wordDTO);
           } catch (error) {
             pusblishNotification({
               severity: "error",
@@ -92,6 +93,7 @@ export const WordForm = ({ word = defaultWord, ...props }: WordFormType) => {
               severity: "success",
               message: "Word created!",
             });
+            props.onCreate?.(wordDTO);
           } catch (error) {
             pusblishNotification({
               severity: "error",

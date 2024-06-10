@@ -25,7 +25,6 @@ export const useTags = (): UseTagsResponseType => {
   const handleOnSnapShotResults = (query: QuerySnapshot<TagType>) => {
     setLoading(false);
     setError(false);
-    console.log("query", query.docs);
     const words = query.docs.map((doc) => {
       return { id: doc.id, ...doc.data() };
     });

@@ -8,6 +8,8 @@ import CloseIcon from "@mui/icons-material/Close";
 type WordModalFormType = {
   word?: WordType;
   onClose?: () => void;
+  onCreate?: (word: WordType) => void;
+  onEdit?: (word: WordType) => void;
   onDelete?: () => void;
 };
 
@@ -38,7 +40,12 @@ export const WordModalForm = (props: WordModalFormType) => {
         >
           <CloseIcon />
         </IconButton>
-        <WordForm word={props.word} onDelete={props.onDelete} />
+        <WordForm
+          word={props.word}
+          onCreate={props.onCreate}
+          onEdit={props.onEdit}
+          onDelete={props.onDelete}
+        />
       </Box>
     </Modal>
   );
