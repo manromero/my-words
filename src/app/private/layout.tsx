@@ -12,6 +12,7 @@ import { useAuth } from "@/hooks";
 import { DrawerMenu, LogoutButton, MenuButton, MenuItem } from "@/components";
 import { MENU_ITEMS } from "@/routes";
 import { DataProvider } from "@/context";
+import { Notifications } from "@/components/notifications";
 
 export default function PrivateLayout({
   children,
@@ -66,6 +67,7 @@ export default function PrivateLayout({
           {children}
         </Box>
       </Box>
+      <Notifications />
     </DataProvider>
   );
 }

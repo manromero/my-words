@@ -13,23 +13,22 @@ import IconButton from "@mui/material/IconButton";
 import InputAdornment from "@mui/material/InputAdornment";
 import OutlinedInput from "@mui/material/OutlinedInput";
 import {
-  Alert,
-  AlertColor,
   Checkbox,
   Chip,
   FormControlLabel,
   FormGroup,
   FormLabel,
-  Snackbar,
 } from "@mui/material";
-import { useAuth, useData, useWord } from "@/hooks";
+import { useAuth, useData, useNotifications, useWord } from "@/hooks";
 import { Formik } from "formik";
 import * as Yup from "yup";
-import { useState } from "react";
 import { WordType, WordWithIdType } from "@/types";
 
 type WordFormType = {
   word?: WordType;
+  onCreate?: (word: WordType) => void;
+  onEdit?: (word: WordType) => void;
+  onDelete?: () => void;
 };
 
 const defaultWord: WordType = {
@@ -40,35 +39,19 @@ const defaultWord: WordType = {
   id: undefined,
 };
 
-export const WordForm = ({ word = defaultWord }: WordFormType) => {
+export const WordForm = ({ word = defaultWord, ...props }: WordFormType) => {
   const { tags } = useData();
   const { user } = useAuth();
   const { createWord, updateWord, deleteWord } = useWord();
-  const [snackbar, setSnackbar] = useState<
-    | {
-        severity: AlertColor;
-        message: string;
-      }
-    | undefined
-  >();
-
-  const handleSnackbarClose = (
-    _event: React.SyntheticEvent | Event,
-    reason?: string
-  ) => {
-    if (reason === "clickaway") {
-      return;
-    }
-
-    setSnackbar(undefined);
-  };
+  const { pusblishNotification } = useNotifications();
 
   const handleDelete = async (id: string) => {
     try {
       await deleteWord(id);
-      setSnackbar({ severity: "success", message: "Word deleted!" });
+      pusblishNotification({ severity: "success", message: "Word deleted!" });
+      props.onDelete?.();
     } catch (e) {
-      setSnackbar({
+      pusblishNotification({
         severity: "error",
         message: "Error when deleting the word",
       });
@@ -87,13 +70,15 @@ export const WordForm = ({ word = defaultWord }: WordFormType) => {
       })}
       onSubmit={async (values, { setSubmitting }) => {
         const wordDTO = { ...values, userId: user?.uid };
-        console.log(wordDTO);
         if (values.id) {
           try {
             await updateWord(wordDTO as WordWithIdType);
-            setSnackbar({ severity: "success", message: "Word updated!" });
+            pusblishNotification({
+              severity: "success",
+              message: "Word updated!",
+            });
           } catch (error) {
-            setSnackbar({
+            pusblishNotification({
               severity: "error",
               message: "Error when updating the word",
             });
@@ -103,9 +88,12 @@ export const WordForm = ({ word = defaultWord }: WordFormType) => {
         } else {
           try {
             await createWord(wordDTO);
-            setSnackbar({ severity: "success", message: "Word created!" });
+            pusblishNotification({
+              severity: "success",
+              message: "Word created!",
+            });
           } catch (error) {
-            setSnackbar({
+            pusblishNotification({
               severity: "error",
               message: "Error when creating the word",
             });
@@ -134,20 +122,6 @@ export const WordForm = ({ word = defaultWord }: WordFormType) => {
 
         return (
           <form onSubmit={handleSubmit}>
-            <Snackbar
-              open={snackbar !== undefined}
-              onClose={handleSnackbarClose}
-              autoHideDuration={5000}
-            >
-              <Alert
-                onClose={handleSnackbarClose}
-                severity={snackbar?.severity}
-                variant="filled"
-                sx={{ width: "100%" }}
-              >
-                {snackbar?.message}
-              </Alert>
-            </Snackbar>
             <Stack direction="column" spacing={2}>
               <FormControl>
                 <TextField

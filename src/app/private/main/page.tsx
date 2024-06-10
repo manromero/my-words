@@ -56,6 +56,10 @@ export default function MainPage() {
     setModalWord(undefined);
   };
 
+  const handleDelete = () => {
+    setModalWord(undefined);
+  };
+
   return (
     <Box>
       <Stack direction="row" spacing={2}>
@@ -121,7 +125,11 @@ export default function MainPage() {
         error={words.error}
         onWordClick={handleWordClick}
       />
-      <WordModalForm word={modalWord} onClose={handleCloseModalForm} />
+      <WordModalForm
+        word={modalWord}
+        onClose={handleCloseModalForm}
+        onDelete={handleDelete}
+      />
     </Box>
   );
 }
