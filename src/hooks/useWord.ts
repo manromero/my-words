@@ -4,6 +4,7 @@ import {
   DocumentReference,
   addDoc,
   collection,
+  deleteDoc,
   doc,
   updateDoc,
 } from "firebase/firestore";
@@ -14,6 +15,7 @@ export type UseWordResponseType = {
     word: WordType
   ) => Promise<DocumentReference<DocumentData, DocumentData>>;
   updateWord: (word: WordWithIdType) => Promise<void>;
+  deleteWord: (id: string) => Promise<void>;
 };
 
 export const useWord = (): UseWordResponseType => {
@@ -25,5 +27,9 @@ export const useWord = (): UseWordResponseType => {
     return await updateDoc(doc(db, "words", word.id), word);
   };
 
-  return { createWord, updateWord };
+  const deleteWord = async (id: string) => {
+    return await deleteDoc(doc(db, "words", id));
+  };
+
+  return { createWord, updateWord, deleteWord };
 };

@@ -43,7 +43,7 @@ const defaultWord: WordType = {
 export const WordForm = ({ word = defaultWord }: WordFormType) => {
   const { tags } = useData();
   const { user } = useAuth();
-  const { createWord, updateWord } = useWord();
+  const { createWord, updateWord, deleteWord } = useWord();
   const [snackbar, setSnackbar] = useState<
     | {
         severity: AlertColor;
@@ -61,6 +61,18 @@ export const WordForm = ({ word = defaultWord }: WordFormType) => {
     }
 
     setSnackbar(undefined);
+  };
+
+  const handleDelete = async (id: string) => {
+    try {
+      await deleteWord(id);
+      setSnackbar({ severity: "success", message: "Word deleted!" });
+    } catch (e) {
+      setSnackbar({
+        severity: "error",
+        message: "Error when deleting the word",
+      });
+    }
   };
 
   return (
@@ -228,7 +240,8 @@ export const WordForm = ({ word = defaultWord }: WordFormType) => {
                   variant="contained"
                   color="error"
                   startIcon={<DeleteIcon />}
-                  disabled={isSubmitting}
+                  disabled={values.id === undefined || isSubmitting}
+                  onClick={() => handleDelete(values.id as string)}
                 >
                   Delete
                 </Button>
