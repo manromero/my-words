@@ -3,3 +3,7 @@ export type TagType = {
   label?: string;
   color?: string;
 };
+
+export type TagWithIdType = TagType & {
+  id: string;
+};

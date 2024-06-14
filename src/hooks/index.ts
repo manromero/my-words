@@ -2,6 +2,8 @@ export * from "./useAuth";
 export * from "./useWords";
 export * from "./useData";
 export * from "./useWordsFilter";
+export * from "./useTagsFilter";
 export * from "./useTags";
 export * from "./useWord";
 export * from "./useNotifications";
+export * from "./useTag";

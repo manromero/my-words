@@ -21,7 +21,6 @@ import {
 } from "@mui/material";
 import { WordList, WordModalForm } from "@/components";
 import { useData, useWordsFilter } from "@/hooks";
-import NextLink from "next/link";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import { WordType } from "@/types";
 
