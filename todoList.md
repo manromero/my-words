@@ -1,5 +1,2 @@
-- Create tags
-- Edit tags
-- Delete tags
 - improve notifications
 - Filter del main debería estar fijo
