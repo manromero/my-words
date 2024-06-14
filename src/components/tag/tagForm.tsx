@@ -133,46 +133,69 @@ export const TagForm = ({ tag = defaultTag, ...props }: TagFormType) => {
                     sx={{ flexDirection: "row", flexWrap: "wrap" }}
                   >
                     <FormControlLabel
+                      name="color"
                       value="default"
                       control={<Radio />}
                       label={<Chip label="default" color="default" />}
+                      checked={values.color === "default"}
+                      onChange={handleChange}
                     />
                     <FormControlLabel
+                      name="color"
                       value="error"
                       control={<Radio />}
                       label={<Chip label="error" color="error" />}
+                      checked={values.color === "error"}
+                      onChange={handleChange}
                     />
                     <FormControlLabel
+                      name="color"
                       value="info"
                       control={<Radio />}
                       label={<Chip label="info" color="info" />}
+                      checked={values.color === "info"}
+                      onChange={handleChange}
                     />
                     <FormControlLabel
+                      name="color"
                       value="primary"
                       control={<Radio />}
                       label={<Chip label="primary" color="primary" />}
+                      checked={values.color === "primary"}
+                      onChange={handleChange}
                     />
                     <FormControlLabel
+                      name="color"
                       value="secondary"
                       control={<Radio />}
                       label={<Chip label="secondary" color="secondary" />}
+                      checked={values.color === "secondary"}
+                      onChange={handleChange}
                     />
                     <FormControlLabel
+                      name="color"
                       value="success"
                       control={<Radio />}
                       label={<Chip label="success" color="success" />}
+                      checked={values.color === "success"}
+                      onChange={handleChange}
                     />
                     <FormControlLabel
+                      name="color"
                       value="warning"
                       control={<Radio />}
                       label={<Chip label="warning" color="warning" />}
+                      checked={values.color === "warning"}
+                      onChange={handleChange}
                     />
                   </RadioGroup>
                 </FormControl>
-                <Stack direction="row" alignItems="center" spacing={2}>
-                  <FormLabel component="p">Preview</FormLabel>
-                  <Chip label="warning" color="warning" />
-                </Stack>
+                {values.label !== "" && (
+                  <Stack direction="row" alignItems="center" spacing={2}>
+                    <FormLabel component="p">Preview</FormLabel>
+                    <Chip label={values.label} color={values.color as any} />
+                  </Stack>
+                )}
                 <Stack direction="row" justifyContent="flex-end" spacing={2}>
                   <Button
                     variant="contained"
