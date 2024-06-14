@@ -4,9 +4,11 @@ import ListItemButton from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
 import Divider from "@mui/material/Divider";
 import React from "react";
-import { WordType } from "@/types";
+import { TagType, WordType } from "@/types";
+import { Box, Chip, Stack } from "@mui/material";
 
 type WordListType = {
+  tags: TagType[];
   words: WordType[];
   loading: boolean;
   error: boolean;
@@ -20,8 +22,26 @@ export const WordList = (props: WordListType) => {
         <React.Fragment key={word.id}>
           <Divider variant="fullWidth" component="li" />
           <ListItem disablePadding>
-            <ListItemButton onClick={() => props.onWordClick?.(word)}>
+            <ListItemButton
+              onClick={() => props.onWordClick?.(word)}
+              sx={{
+                flexDirection: "column",
+                alignItems: "flex-start",
+              }}
+            >
               <ListItemText primary={word.word} secondary={word.translation} />
+              <Stack direction="row" gap={1} flexWrap="wrap">
+                {props.tags
+                  .filter((tag) => word.tags?.includes(tag.id as string))
+                  .map((tag) => (
+                    <Chip
+                      key={tag.id}
+                      label={tag.label}
+                      color={tag.color as any}
+                      component={"span"}
+                    />
+                  ))}
+              </Stack>
             </ListItemButton>
           </ListItem>
         </React.Fragment>

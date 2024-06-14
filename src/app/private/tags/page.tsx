@@ -44,6 +44,10 @@ export default function TagListPage() {
     setModalTag(undefined);
   };
 
+  const handleEdit = () => {
+    setModalTag(undefined);
+  };
+
   return (
     <Box>
       <Stack direction="row" spacing={2}>
@@ -68,8 +72,9 @@ export default function TagListPage() {
       <TagModalForm
         tag={modalTag}
         onCreate={handleCreate}
-        onClose={handleCloseModalForm}
+        onEdit={handleEdit}
         onDelete={handleDelete}
+        onClose={handleCloseModalForm}
       />
     </Box>
   );
