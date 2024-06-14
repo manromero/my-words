@@ -1,2 +1,2 @@
 - improve notifications
-- Filter del main debería estar fijo
+- añadir dark mode
