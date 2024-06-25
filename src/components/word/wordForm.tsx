@@ -29,7 +29,6 @@ import {
 import { Formik } from "formik";
 import * as Yup from "yup";
 import { WordType, WordWithIdType } from "@/types";
-import { useTransition } from "react";
 
 type WordFormType = {
   word?: WordType;
@@ -50,8 +49,39 @@ export const WordForm = ({ word = defaultWord, ...props }: WordFormType) => {
   const { tags } = useData();
   const { user } = useAuth();
   const { createWord, updateWord, deleteWord } = useWord();
-  const { translate } = useTranslate();
+  const { translate, loading: loadingTranslate } = useTranslate();
   const { pusblishNotification } = useNotifications();
+
+  const handleTranslate = async ({
+    text,
+    setFieldValue,
+  }: {
+    text?: string;
+    setFieldValue: (
+      field: string,
+      value: any,
+      shouldValidate?: boolean | undefined
+    ) => void;
+  }) => {
+    if (!text) {
+      return;
+    }
+    try {
+      const translation = await translate(text);
+      if (translation) {
+        setFieldValue("translation", translation);
+        pusblishNotification({
+          severity: "success",
+          message: "Translation generated",
+        });
+      }
+    } catch (e) {
+      pusblishNotification({
+        severity: "error",
+        message: "Unexpected error when translating",
+      });
+    }
+  };
 
   const handleDelete = async (id: string) => {
     try {
@@ -172,27 +202,10 @@ export const WordForm = ({ word = defaultWord, ...props }: WordFormType) => {
                       <IconButton
                         color="primary"
                         aria-label="Click here to autogenerate a translation"
-                        onClick={async () => {
-                          if (!values.word) {
-                            return;
-                          }
-                          try {
-                            const translation = await translate(values.word);
-                            if (translation) {
-                              setFieldValue("translation", translation);
-                              pusblishNotification({
-                                severity: "success",
-                                message: "Translation generated",
-                              });
-                            }
-                          } catch (e) {
-                            pusblishNotification({
-                              severity: "error",
-                              message: "Unexpected error when translating",
-                            });
-                          }
-                        }}
-                        disabled={!values.word}
+                        onClick={() =>
+                          handleTranslate({ text: values.word, setFieldValue })
+                        }
+                        disabled={!values.word || loadingTranslate}
                       >
                         <AutoFixHighIcon />
                       </IconButton>

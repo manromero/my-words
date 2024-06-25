@@ -1,5 +1,10 @@
+import { useState } from "react";
+
 export const useTranslate = () => {
+  const [loading, setLoading] = useState(false);
+
   const translate = async (text: string): Promise<string | undefined> => {
+    setLoading(true);
     const data = {
       text,
     };
@@ -10,7 +15,7 @@ export const useTranslate = () => {
       },
       body: JSON.stringify(data),
     });
-    console.log("response", response);
+    setLoading(false);
     if (!response.ok) {
       throw new Error("Response is not ok");
     }
@@ -21,5 +26,5 @@ export const useTranslate = () => {
     return result.translation;
   };
 
-  return { translate };
+  return { translate, loading };
 };
