@@ -7,3 +7,4 @@ export * from "./useTags";
 export * from "./useWord";
 export * from "./useNotifications";
 export * from "./useTag";
+export * from "./useTranslate";

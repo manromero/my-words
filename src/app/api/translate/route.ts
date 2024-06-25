@@ -1,4 +1,3 @@
-import type { NextApiRequest, NextApiResponse } from "next";
 import { NextRequest, NextResponse } from "next/server";
 
 const DEEPL_AUTH_API_KEY = process.env.NEXT_PRIVATE_DEEPL_AUTH_API_KEY ?? "";
@@ -8,11 +7,11 @@ type ResponseData = {
   translation?: string;
 };
 
-export async function GET(
+export async function POST(
   req: NextRequest
 ): Promise<NextResponse<ResponseData>> {
-  const searchParams = req.nextUrl.searchParams;
-  const text = searchParams.get("text");
+  const reqData = await req.json();
+  const text = reqData.text;
   if (!text) {
     return NextResponse.json(
       { error: "Bad request: Text is mandatory" },

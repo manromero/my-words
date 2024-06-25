@@ -19,10 +19,17 @@ import {
   FormGroup,
   FormLabel,
 } from "@mui/material";
-import { useAuth, useData, useNotifications, useWord } from "@/hooks";
+import {
+  useAuth,
+  useData,
+  useNotifications,
+  useTranslate,
+  useWord,
+} from "@/hooks";
 import { Formik } from "formik";
 import * as Yup from "yup";
 import { WordType, WordWithIdType } from "@/types";
+import { useTransition } from "react";
 
 type WordFormType = {
   word?: WordType;
@@ -43,6 +50,7 @@ export const WordForm = ({ word = defaultWord, ...props }: WordFormType) => {
   const { tags } = useData();
   const { user } = useAuth();
   const { createWord, updateWord, deleteWord } = useWord();
+  const { translate } = useTranslate();
   const { pusblishNotification } = useNotifications();
 
   const handleDelete = async (id: string) => {
@@ -112,6 +120,7 @@ export const WordForm = ({ word = defaultWord, ...props }: WordFormType) => {
         handleChange,
         handleBlur,
         handleSubmit,
+        setFieldValue,
         isSubmitting,
       }) => {
         const wordError = Boolean(errors.word && touched.word && errors.word);
@@ -163,6 +172,27 @@ export const WordForm = ({ word = defaultWord, ...props }: WordFormType) => {
                       <IconButton
                         color="primary"
                         aria-label="Click here to autogenerate a translation"
+                        onClick={async () => {
+                          if (!values.word) {
+                            return;
+                          }
+                          try {
+                            const translation = await translate(values.word);
+                            if (translation) {
+                              setFieldValue("translation", translation);
+                              pusblishNotification({
+                                severity: "success",
+                                message: "Translation generated",
+                              });
+                            }
+                          } catch (e) {
+                            pusblishNotification({
+                              severity: "error",
+                              message: "Unexpected error when translating",
+                            });
+                          }
+                        }}
+                        disabled={!values.word}
                       >
                         <AutoFixHighIcon />
                       </IconButton>
