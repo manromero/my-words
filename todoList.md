@@ -1,2 +1,3 @@
 - improve notifications
 - añadir dark mode
+- improving loading when entering and loading data
