@@ -62,7 +62,7 @@ export default function PrivateLayout({
             </List>
           </Box>
         </DrawerMenu>
-        <Box component="main" sx={{ flexGrow: 1, p: 2 }}>
+        <Box component="main" sx={{ flexGrow: 1, p: 2, paddingTop: 0 }}>
           <Toolbar />
           {children}
         </Box>

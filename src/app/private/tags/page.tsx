@@ -49,7 +49,7 @@ export default function TagListPage() {
 
   return (
     <Box>
-      <Stack direction="row" spacing={2}>
+      <Stack direction="row" spacing={2} sx={{ paddingTop: 2 }}>
         <FormControl variant="outlined" fullWidth>
           <InputLabel htmlFor="input-filter-tags">Filter tags</InputLabel>
           <OutlinedInput
@@ -67,7 +67,11 @@ export default function TagListPage() {
           <AddCircleOutlineIcon />
         </IconButton>
       </Stack>
-      <TagList tags={tagsFiltered} onTagClick={handleTagClick} loading={tags.loading} />
+      <TagList
+        tags={tagsFiltered}
+        onTagClick={handleTagClick}
+        loading={tags.loading}
+      />
       <TagModalForm
         tag={modalTag}
         onCreate={handleCreate}

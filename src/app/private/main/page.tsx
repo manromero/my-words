@@ -68,64 +68,77 @@ export default function MainPage() {
   };
 
   return (
-    <Box>
-      <Stack direction="row" spacing={2}>
-        <FormControl variant="outlined" fullWidth>
-          <InputLabel htmlFor="input-filter-words">
-            Filter word or concept
-          </InputLabel>
-          <OutlinedInput
-            fullWidth
-            label="Filter word or concept"
-            id="input-filter-words"
-            onChange={onChangeSearchText}
-            endAdornment={
-              <InputAdornment position="end">
-                <IconButton
-                  color="primary"
-                  aria-label="Click here to autogenerate a translation"
-                  onClick={handleFilterClick}
-                >
-                  <SettingsIcon />
-                </IconButton>
-              </InputAdornment>
-            }
-          />
-        </FormControl>
-        <IconButton
-          color="primary"
-          aria-label="Create a new word"
-          onClick={handleCreateWordClick}
-        >
-          <AddCircleOutlineIcon />
-        </IconButton>
+    <Box sx={{ position: "relative" }}>
+      <Stack
+        direction="column"
+        sx={{
+          position: "sticky",
+          top: { xs: "56px", sm: "64px" },
+          paddingTop: 2,
+          // TODO MANROMERO color
+          background: "white",
+          zIndex: 1,
+        }}
+      >
+        <Stack direction="row" spacing={2}>
+          <FormControl variant="outlined" fullWidth>
+            <InputLabel htmlFor="input-filter-words">
+              Filter word or concept
+            </InputLabel>
+            <OutlinedInput
+              fullWidth
+              label="Filter word or concept"
+              id="input-filter-words"
+              onChange={onChangeSearchText}
+              endAdornment={
+                <InputAdornment position="end">
+                  <IconButton
+                    color="primary"
+                    aria-label="Click here to autogenerate a translation"
+                    onClick={handleFilterClick}
+                  >
+                    <SettingsIcon />
+                  </IconButton>
+                </InputAdornment>
+              }
+            />
+          </FormControl>
+          <IconButton
+            color="primary"
+            aria-label="Create a new word"
+            onClick={handleCreateWordClick}
+          >
+            <AddCircleOutlineIcon />
+          </IconButton>
+        </Stack>
+        <Collapse in={filterExpanded}>
+          <Container
+            maxWidth={false}
+            sx={{
+              width: "100%",
+              marginTop: 1,
+              padding: 2,
+              borderRadius: 1,
+              borderStyle: "solid",
+              borderWidth: 1,
+              borderColor: "primary.light",
+            }}
+          >
+            <FormGroup sx={{ display: "flex", flexDirection: "row" }}>
+              {checkboxTags.map((tag) => (
+                <FormControlLabel
+                  key={tag.id}
+                  control={
+                    <Checkbox value={tag.id} onChange={onChangeCheckboxTag} />
+                  }
+                  label={<Chip label={tag.label} color={tag.color as any} />}
+                />
+              ))}
+            </FormGroup>
+          </Container>
+        </Collapse>
       </Stack>
-      <Collapse in={filterExpanded}>
-        <Container
-          maxWidth={false}
-          sx={{
-            width: "100%",
-            marginTop: 1,
-            padding: 2,
-            borderRadius: 1,
-            borderStyle: "solid",
-            borderWidth: 1,
-            borderColor: "primary.light",
-          }}
-        >
-          <FormGroup sx={{ display: "flex", flexDirection: "row" }}>
-            {checkboxTags.map((tag) => (
-              <FormControlLabel
-                key={tag.id}
-                control={
-                  <Checkbox value={tag.id} onChange={onChangeCheckboxTag} />
-                }
-                label={<Chip label={tag.label} color={tag.color as any} />}
-              />
-            ))}
-          </FormGroup>
-        </Container>
-      </Collapse>
+
       <WordList
         tags={tags.data}
         words={wordsFiltered}
