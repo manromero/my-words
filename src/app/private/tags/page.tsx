@@ -49,7 +49,18 @@ export default function TagListPage() {
 
   return (
     <Box>
-      <Stack direction="row" spacing={2} sx={{ paddingTop: 2 }}>
+      <Stack
+        direction="row"
+        spacing={2}
+        sx={{
+          position: "sticky",
+          top: { xs: "56px", sm: "64px" },
+          paddingTop: 2,
+          // TODO MANROMERO color
+          background: "white",
+          zIndex: 1,
+        }}
+      >
         <FormControl variant="outlined" fullWidth>
           <InputLabel htmlFor="input-filter-tags">Filter tags</InputLabel>
           <OutlinedInput
