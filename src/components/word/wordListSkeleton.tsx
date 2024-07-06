@@ -32,7 +32,7 @@ export const WordListSkeleton = (props: WordListSkeletonType) => {
               }
             />
             <Stack direction="row" gap={1} flexWrap="wrap">
-              <Skeleton variant="rounded" width={50} height={20} />
+              <Skeleton variant="rounded" width={70} height={32} />
             </Stack>
           </ListItemButton>
         </ListItem>
@@ -51,15 +51,15 @@ export const WordListSkeleton = (props: WordListSkeletonType) => {
               secondary={
                 <Skeleton
                   variant="rounded"
-                  width={80}
+                  width={100}
                   height={20}
                   sx={{ marginTop: 1 }}
                 />
               }
             />
             <Stack direction="row" gap={1} flexWrap="wrap">
-              <Skeleton variant="rounded" width={50} height={20} />
-              <Skeleton variant="rounded" width={50} height={20} />
+              <Skeleton variant="rounded" width={80} height={32} />
+              <Skeleton variant="rounded" width={70} height={32} />
             </Stack>
           </ListItemButton>
         </ListItem>
@@ -85,9 +85,9 @@ export const WordListSkeleton = (props: WordListSkeletonType) => {
               }
             />
             <Stack direction="row" gap={1} flexWrap="wrap">
-              <Skeleton variant="rounded" width={50} height={20} />
-              <Skeleton variant="rounded" width={50} height={20} />
-              <Skeleton variant="rounded" width={50} height={20} />
+              <Skeleton variant="rounded" width={70} height={32} />
+              <Skeleton variant="rounded" width={60} height={32} />
+              <Skeleton variant="rounded" width={80} height={32} />
             </Stack>
           </ListItemButton>
         </ListItem>
@@ -113,8 +113,8 @@ export const WordListSkeleton = (props: WordListSkeletonType) => {
               }
             />
             <Stack direction="row" gap={1} flexWrap="wrap">
-              <Skeleton variant="rounded" width={50} height={20} />
-              <Skeleton variant="rounded" width={50} height={20} />
+              <Skeleton variant="rounded" width={80} height={32} />
+              <Skeleton variant="rounded" width={70} height={32} />
             </Stack>
           </ListItemButton>
         </ListItem>

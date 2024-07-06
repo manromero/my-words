@@ -5,13 +5,19 @@ import Divider from "@mui/material/Divider";
 import React from "react";
 import { Chip } from "@mui/material";
 import { TagType } from "@/types";
+import { TagListSkeleton } from "./tagListSkeleton";
 
 type TagListType = {
   tags: TagType[];
+  loading: boolean;
   onTagClick?: (word: TagType) => void;
 };
 
 export const TagList = (props: TagListType) => {
+  if (props.loading) {
+    return <TagListSkeleton />;
+  }
+
   return (
     <List>
       {props.tags.map((tag) => (

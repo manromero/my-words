@@ -1,7 +1,6 @@
 "use client";
 
-import { TagList } from "@/components";
-import { TagModalForm } from "@/components/tag/tagModalForm";
+import { TagList, TagModalForm } from "@/components";
 import { useData, useTagsFilter } from "@/hooks";
 import { TagType } from "@/types";
 import {
@@ -68,7 +67,7 @@ export default function TagListPage() {
           <AddCircleOutlineIcon />
         </IconButton>
       </Stack>
-      <TagList tags={tagsFiltered} onTagClick={handleTagClick} />
+      <TagList tags={tagsFiltered} onTagClick={handleTagClick} loading={tags.loading} />
       <TagModalForm
         tag={modalTag}
         onCreate={handleCreate}
