@@ -5,7 +5,8 @@ import ListItemText from "@mui/material/ListItemText";
 import Divider from "@mui/material/Divider";
 import React from "react";
 import { TagType, WordType } from "@/types";
-import { Box, Chip, Stack } from "@mui/material";
+import { Chip, Stack } from "@mui/material";
+import { WordListSkeleton } from "./wordListSkeleton";
 
 type WordListType = {
   tags: TagType[];
@@ -16,6 +17,10 @@ type WordListType = {
 };
 
 export const WordList = (props: WordListType) => {
+  if (props.loading) {
+    return <WordListSkeleton />;
+  }
+
   return (
     <List>
       {props.words.map((word) => (
