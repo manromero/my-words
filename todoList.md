@@ -1,3 +1,3 @@
 - improve notifications
 - añadir dark mode
-- improve middleware to isAuth
+- improve middleware to isAuthenticated

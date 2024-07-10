@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { isAuth } from "../auth/service";
+import { isAuthenticated } from "../auth/service";
 
 const DEEPL_AUTH_API_KEY = process.env.NEXT_PRIVATE_DEEPL_AUTH_API_KEY ?? "";
 
@@ -11,7 +11,7 @@ type ResponseData = {
 export async function POST(
   req: NextRequest
 ): Promise<NextResponse<ResponseData>> {
-  const authenticated = await isAuth();
+  const authenticated = await isAuthenticated();
   if (!authenticated) {
     return NextResponse.json(
       { error: "User not authenticated" },
