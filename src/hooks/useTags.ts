@@ -7,6 +7,7 @@ import {
   collection,
   onSnapshot,
   query,
+  where,
 } from "firebase/firestore";
 import { db } from "@/firebase/client-config";
 
@@ -45,7 +46,7 @@ export const useTags = (): UseTagsResponseType => {
       return;
     }
     setLoading(true);
-    const q = query(collection(db, "tags"));
+    const q = query(collection(db, "tags"), where("userId", "==", user.uid));
     const unsubscribe = onSnapshot(
       q,
       handleOnSnapShotResults,
