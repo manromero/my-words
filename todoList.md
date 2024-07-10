@@ -1,2 +1,3 @@
 - improve notifications
 - añadir dark mode
+- improve middleware to isAuth

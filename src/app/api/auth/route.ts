@@ -1,9 +1,9 @@
 import { NextResponse } from "next/server";
-import { isAuthenticated } from "./service";
+import { isAuth } from "./service";
 
 // Validate session
 export async function GET() {
-  const authenticated = await isAuthenticated();
+  const authenticated = await isAuth();
   if (!authenticated) {
     return NextResponse.json({ success: false }, { status: 401 });
   }

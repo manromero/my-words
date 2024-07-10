@@ -4,7 +4,7 @@ import { serverAuth } from "@/firebase/admin-config";
 const NEXT_PUBLIC_COOKIE_SESSION_NAME =
   process.env.NEXT_PUBLIC_COOKIE_SESSION_NAME ?? "";
 
-export const isAuthenticated = async () => {
+export const isAuth = async () => {
   const session = cookies().get(NEXT_PUBLIC_COOKIE_SESSION_NAME);
   if (!session?.value) {
     return false;
