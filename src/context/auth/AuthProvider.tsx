@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from "react";
 import { AuthContext } from "./AuthContext";
 import {
+  FacebookAuthProvider,
   GoogleAuthProvider,
   User,
   signInWithCredential,
@@ -41,10 +42,31 @@ export const AuthProvider = ({ children }: TAuthProvider): JSX.Element => {
   };
 
   const handleSignInWithGoogle = () => {
-    const googleProvider = new GoogleAuthProvider();
-    signInWithPopup(clientAuth, googleProvider)
+    const provider = new GoogleAuthProvider();
+    signInWithPopup(clientAuth, provider)
       .then(async (result) => {
         const credential = GoogleAuthProvider.credentialFromResult(result);
+        if (!credential) {
+          return;
+        }
+        const userCred = await signInWithCredential(clientAuth, credential);
+        const idToken = await userCred.user.getIdToken();
+        if (idToken) {
+          document.cookie = `${NEXT_PUBLIC_COOKIE_SESSION_NAME}=${idToken}`;
+          router.push(ROUTES.PRIVATE_MAIN);
+        }
+      })
+      .catch((e) => {
+        console.error("Login failed....");
+        console.error(e);
+      });
+  };
+
+  const handleSignInWithFacebook = () => {
+    const provider = new FacebookAuthProvider();
+    signInWithPopup(clientAuth, provider)
+      .then(async (result) => {
+        const credential = FacebookAuthProvider.credentialFromResult(result);
         if (!credential) {
           return;
         }
@@ -72,6 +94,7 @@ export const AuthProvider = ({ children }: TAuthProvider): JSX.Element => {
         user,
         signOut: handleSignOut,
         signInWithGoogle: handleSignInWithGoogle,
+        signInWithFacebook: handleSignInWithFacebook,
       }}
     >
       {children}
