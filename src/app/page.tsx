@@ -5,9 +5,10 @@ import Divider from "@mui/material/Divider";
 import { useAuth } from "@/hooks";
 import { Box, Button, Typography } from "@mui/material";
 import GoogleIcon from "@mui/icons-material/Google";
+import FacebookIcon from "@mui/icons-material/Facebook";
 
 const AppPage = () => {
-  const { signInWithGoogle } = useAuth();
+  const { signInWithGoogle, signInWithFacebook } = useAuth();
 
   return (
     <Box
@@ -32,6 +33,14 @@ const AppPage = () => {
         onClick={signInWithGoogle}
       >
         SignIn With Google
+      </Button>
+      <Button
+        startIcon={<FacebookIcon />}
+        variant="contained"
+        color="primary"
+        onClick={signInWithFacebook}
+      >
+        SignIn With Facebook
       </Button>
     </Box>
   );

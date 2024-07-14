@@ -1,3 +1,6 @@
 - improve notifications
 - añadir dark mode
 - improve middleware to isAuthenticated
+- improve loading login
+- políticas de privacidad
+- eliminar usuario
