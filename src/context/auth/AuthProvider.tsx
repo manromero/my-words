@@ -45,12 +45,7 @@ export const AuthProvider = ({ children }: TAuthProvider): JSX.Element => {
     const provider = new GoogleAuthProvider();
     signInWithPopup(clientAuth, provider)
       .then(async (result) => {
-        const credential = GoogleAuthProvider.credentialFromResult(result);
-        if (!credential) {
-          return;
-        }
-        const userCred = await signInWithCredential(clientAuth, credential);
-        const idToken = await userCred.user.getIdToken();
+        const idToken = await result.user.getIdToken();
         if (idToken) {
           document.cookie = `${NEXT_PUBLIC_COOKIE_SESSION_NAME}=${idToken}`;
           router.push(ROUTES.PRIVATE_MAIN);
@@ -66,12 +61,7 @@ export const AuthProvider = ({ children }: TAuthProvider): JSX.Element => {
     const provider = new FacebookAuthProvider();
     signInWithPopup(clientAuth, provider)
       .then(async (result) => {
-        const credential = FacebookAuthProvider.credentialFromResult(result);
-        if (!credential) {
-          return;
-        }
-        const userCred = await signInWithCredential(clientAuth, credential);
-        const idToken = await userCred.user.getIdToken();
+        const idToken = await result.user.getIdToken();
         if (idToken) {
           document.cookie = `${NEXT_PUBLIC_COOKIE_SESSION_NAME}=${idToken}`;
           router.push(ROUTES.PRIVATE_MAIN);
