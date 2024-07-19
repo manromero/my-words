@@ -22,6 +22,7 @@ type TAuthProvider = {
 
 export const AuthProvider = ({ children }: TAuthProvider): JSX.Element => {
   const [user, setUser] = useState<User | null>(null);
+  const [loading, setLoading] = useState(false);
   const router = useRouter();
 
   const onAuthStateChanged = async (_user: User | null) => {
@@ -43,6 +44,7 @@ export const AuthProvider = ({ children }: TAuthProvider): JSX.Element => {
 
   const handleSignInWithGoogle = () => {
     const provider = new GoogleAuthProvider();
+    setLoading(true);
     signInWithPopup(clientAuth, provider)
       .then(async (result) => {
         const idToken = await result.user.getIdToken();
@@ -54,11 +56,15 @@ export const AuthProvider = ({ children }: TAuthProvider): JSX.Element => {
       .catch((e) => {
         console.error("Login failed....");
         console.error(e);
+      })
+      .finally(() => {
+        setLoading(false);
       });
   };
 
   const handleSignInWithFacebook = () => {
     const provider = new FacebookAuthProvider();
+    setLoading(true);
     signInWithPopup(clientAuth, provider)
       .then(async (result) => {
         const idToken = await result.user.getIdToken();
@@ -70,6 +76,9 @@ export const AuthProvider = ({ children }: TAuthProvider): JSX.Element => {
       .catch((e) => {
         console.error("Login failed....");
         console.error(e);
+      })
+      .finally(() => {
+        setLoading(false);
       });
   };
 
@@ -82,6 +91,7 @@ export const AuthProvider = ({ children }: TAuthProvider): JSX.Element => {
     <AuthContext.Provider
       value={{
         user,
+        loading,
         signOut: handleSignOut,
         signInWithGoogle: handleSignInWithGoogle,
         signInWithFacebook: handleSignInWithFacebook,
