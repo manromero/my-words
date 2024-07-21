@@ -3,10 +3,10 @@
 import React, { useState, useEffect } from "react";
 import { AuthContext } from "./AuthContext";
 import {
+  AuthProvider as FirebaseAuthProviderType,
   FacebookAuthProvider,
   GoogleAuthProvider,
   User,
-  signInWithCredential,
   signInWithPopup,
 } from "firebase/auth";
 import { clientAuth } from "@/firebase/client-config";
@@ -39,47 +39,36 @@ export const AuthProvider = ({ children }: TAuthProvider): JSX.Element => {
       console.log("Error: ", e);
       // TODO MANROMERO some kind of alert
       window.alert("Unexpected error when logout");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleSignInWithPopup = async (provider: FirebaseAuthProviderType) => {
+    try {
+      const signInResult = await signInWithPopup(clientAuth, provider);
+      const idToken = await signInResult.user.getIdToken();
+      if (!idToken) {
+        setLoading(false);
+        return;
+      }
+      document.cookie = `${NEXT_PUBLIC_COOKIE_SESSION_NAME}=${idToken}`;
+      router.push(ROUTES.PRIVATE_MAIN);
+    } catch (e) {
+      console.error("Login failed....");
+      console.error(e);
+      setLoading(false);
     }
   };
 
   const handleSignInWithGoogle = () => {
     const provider = new GoogleAuthProvider();
-    setLoading(true);
-    signInWithPopup(clientAuth, provider)
-      .then(async (result) => {
-        const idToken = await result.user.getIdToken();
-        if (idToken) {
-          document.cookie = `${NEXT_PUBLIC_COOKIE_SESSION_NAME}=${idToken}`;
-          router.push(ROUTES.PRIVATE_MAIN);
-        }
-      })
-      .catch((e) => {
-        console.error("Login failed....");
-        console.error(e);
-      })
-      .finally(() => {
-        setLoading(false);
-      });
+    handleSignInWithPopup(provider);
   };
 
   const handleSignInWithFacebook = () => {
     const provider = new FacebookAuthProvider();
-    setLoading(true);
-    signInWithPopup(clientAuth, provider)
-      .then(async (result) => {
-        const idToken = await result.user.getIdToken();
-        if (idToken) {
-          document.cookie = `${NEXT_PUBLIC_COOKIE_SESSION_NAME}=${idToken}`;
-          router.push(ROUTES.PRIVATE_MAIN);
-        }
-      })
-      .catch((e) => {
-        console.error("Login failed....");
-        console.error(e);
-      })
-      .finally(() => {
-        setLoading(false);
-      });
+    handleSignInWithPopup(provider);
   };
 
   useEffect(() => {
