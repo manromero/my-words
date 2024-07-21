@@ -30,6 +30,7 @@ export const AuthProvider = ({ children }: TAuthProvider): JSX.Element => {
   };
 
   const handleSignOut = async () => {
+    setLoading(false);
     try {
       await clientAuth.signOut();
       // Delete cookie
@@ -39,12 +40,11 @@ export const AuthProvider = ({ children }: TAuthProvider): JSX.Element => {
       console.log("Error: ", e);
       // TODO MANROMERO some kind of alert
       window.alert("Unexpected error when logout");
-    } finally {
-      setLoading(false);
     }
   };
 
   const handleSignInWithPopup = async (provider: FirebaseAuthProviderType) => {
+    setLoading(true);
     try {
       const signInResult = await signInWithPopup(clientAuth, provider);
       const idToken = await signInResult.user.getIdToken();
