@@ -48,7 +48,14 @@ export const PlayCard = (props: PlayCardType) => {
   };
 
   return (
-    <Card sx={{ backgroundColor: getBackgroundColor(), flexGrow: 1 }}>
+    <Card
+      sx={{
+        backgroundColor: getBackgroundColor(),
+        width: "30%", // TODO could be improved
+        flexGrow: 1,
+        flexShrink: "0",
+      }}
+    >
       <CardActionArea onClick={props.onClick}>
         <CardContent>
           <Typography

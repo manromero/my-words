@@ -1,29 +1,55 @@
 import { PlayCard } from "@/components";
 import { Stack } from "@mui/material";
 
+const game = {
+  words: [
+    {
+      word: "Cat",
+      translation: "Gato",
+    },
+    {
+      word: "Home",
+      translation: "Casa",
+    },
+    {
+      word: "Dog",
+      translation: "Perro",
+    },
+    {
+      word: "Computer",
+      translation: "Ordenador",
+    },
+    {
+      word: "Girl",
+      translation: "Niña",
+    },
+  ],
+};
+
+const suffleArray = (array: string[]) => {
+  return array.sort((_a, _b) => 0.5 - Math.random());
+};
+
+const getSuffledWords = () => {
+  return suffleArray(game.words.map((word) => word.word));
+};
+
+const getSuffledTranslations = () => {
+  return suffleArray(game.words.map((word) => word.translation));
+};
+
 export default function PracticePage() {
+  const suffledWords = getSuffledWords();
+  const suffledTranslations = getSuffledTranslations();
+
   return (
     <Stack direction="column" spacing={2} width={"100%"} marginTop={4}>
-      <Stack direction="row" spacing={2}>
-        <PlayCard label="Card 1" />
-        <PlayCard label="Card 1" selected />
-      </Stack>
-      <Stack direction="row" spacing={2}>
-        <PlayCard label="Card 1" success />
-        <PlayCard label="Card 1" error />
-      </Stack>
-      <Stack direction="row" spacing={2}>
-        <PlayCard label="Card 1" completed />
-        <PlayCard label="Card 1" />
-      </Stack>
-      <Stack direction="row" spacing={2}>
-        <PlayCard label="Card 1" />
-        <PlayCard label="Card 1" />
-      </Stack>
-      <Stack direction="row" spacing={2}>
-        <PlayCard label="Card 1" />
-        <PlayCard label="Card 1" />
-      </Stack>
+      {suffledWords.map((suffledWord, index) => (
+        <Stack direction="row" spacing={2} key={suffledWord}>
+          <PlayCard label={suffledWord} />
+          <PlayCard label={suffledTranslations[index]} />
+        </Stack>
+      ))}
     </Stack>
   );
 }
