@@ -10,12 +10,15 @@ type PlayCardType = {
   selected?: boolean;
   success?: boolean;
   error?: boolean;
-  completed?: boolean;
+  disabled?: boolean;
   onClick?: React.MouseEventHandler<HTMLButtonElement>;
 };
 
 export const PlayCard = (props: PlayCardType) => {
   const getBackgroundColor = () => {
+    if (props.disabled) {
+      return "grey.300";
+    }
     if (props.error) {
       return "error.light";
     }
@@ -25,13 +28,13 @@ export const PlayCard = (props: PlayCardType) => {
     if (props.selected) {
       return "info.light";
     }
-    if (props.completed) {
-      return "grey.300";
-    }
     return "background.paper";
   };
 
   const getColor = () => {
+    if (props.disabled) {
+      return "grey.400";
+    }
     if (props.error) {
       return "error.contrastText";
     }
@@ -40,9 +43,6 @@ export const PlayCard = (props: PlayCardType) => {
     }
     if (props.selected) {
       return "info.contrastText";
-    }
-    if (props.completed) {
-      return "grey.400";
     }
     return "grey.900";
   };
@@ -56,7 +56,7 @@ export const PlayCard = (props: PlayCardType) => {
         flexShrink: "0",
       }}
     >
-      <CardActionArea onClick={props.onClick}>
+      <CardActionArea onClick={props.onClick} disabled={props.disabled}>
         <CardContent>
           <Typography
             variant="h6"
