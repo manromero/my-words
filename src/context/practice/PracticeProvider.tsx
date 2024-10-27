@@ -4,7 +4,11 @@ import React, { useState } from "react";
 
 import { PracticeContext } from "./PracticeContext";
 
-import { PracticeRoundStateType, PracticeRoundType, WordType } from "@/types";
+import {
+  PracticeRoundStateType,
+  PracticeRoundType,
+  PracticeWordType,
+} from "@/types";
 import { useWords } from "@/hooks";
 import { suffleArray } from "@/utils";
 
@@ -23,7 +27,7 @@ export const PracticeProvider = ({
   const [currentRoundNumber, setCurrentRoundNumber] = useState(0);
   const { data: words } = useWords();
 
-  const generateRounds = (words: WordType[]): PracticeRoundType[] => {
+  const generateRounds = (words: PracticeWordType[]): PracticeRoundType[] => {
     const suffledWords = suffleArray(words);
     const rounds: PracticeRoundType[] = [];
 
@@ -59,10 +63,17 @@ export const PracticeProvider = ({
 
   const handlePlay = (tags: string[]) => {
     const filteredWords = words
-      .filter(({ tags }) => {
-        return tags?.some((wordTagId) => tags.includes(wordTagId));
+      .filter(({ word, translation, tags }) => {
+        return (
+          tags?.some((wordTagId) => tags.includes(wordTagId)) &&
+          word &&
+          translation
+        );
       })
-      .map((w) => ({ ...w }));
+      .map((w) => ({
+        word: w.word as string,
+        translation: w.translation as string,
+      }));
     const generatedRounds = generateRounds(filteredWords);
     setRounds(generatedRounds);
     setState("playing");
