@@ -4,7 +4,12 @@ export type PracticeRoundStateType = "initial" | "playing" | "resume";
 
 export type PracticeRoundType = {
   initialWords: WordType[];
-  suffledWords: string[];
-  suffledTranslations: string[];
+  suffledWords: PracticeCardType[];
+  suffledTranslations: PracticeCardType[];
   errors: string[];
+};
+
+export type PracticeCardType = {
+  value: string;
+  disabled: boolean;
 };

@@ -1,19 +1,14 @@
 "use client";
 
 import { createContext } from "react";
-import {
-  PracticeRoundStateType,
-  PracticeRoundType,
-  TagType,
-  WordType,
-} from "@/types";
+import { PracticeRoundStateType, PracticeRoundType, WordType } from "@/types";
 
 type PracticeContextType = {
   state: PracticeRoundStateType;
-  tags: TagType[];
-  initialWords: WordType[];
   rounds: PracticeRoundType[];
-  currentRound: number;
+  currentRound: PracticeRoundType;
+  currentRoundNumber: number;
+  onPlay: (tags: string[]) => void;
 };
 
 export const PracticeContext = createContext({} as PracticeContextType);

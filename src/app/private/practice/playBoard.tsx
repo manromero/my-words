@@ -1,66 +1,20 @@
 "use client";
 
 import { PlayCard } from "@/components";
+import { usePractice } from "@/hooks";
+import { PracticeCardType } from "@/types";
 import { Stack } from "@mui/material";
 import React, { useState } from "react";
 
-const game = {
-  words: [
-    {
-      word: "Cat",
-      translation: "Gato",
-    },
-    {
-      word: "Home",
-      translation: "Casa",
-    },
-    {
-      word: "Dog",
-      translation: "Perro",
-    },
-    {
-      word: "Computer",
-      translation: "Ordenador",
-    },
-    {
-      word: "Girl",
-      translation: "Niña",
-    },
-  ],
-};
-
-type SuffledCardType = {
-  value: string;
-  disabled: boolean;
-};
-
-const suffleArray = (array: string[]) => {
-  return array.sort((_a, _b) => 0.5 - Math.random());
-};
-
-const getSuffledWords = () => {
-  return suffleArray(game.words.map((word) => word.word)).map((word) => ({
-    value: word,
-    disabled: false,
-  }));
-};
-
-const getSuffledTranslations = () => {
-  return suffleArray(game.words.map((word) => word.translation)).map(
-    (translation) => ({
-      value: translation,
-      disabled: false,
-    })
-  );
-};
-
 export const PlayBoard = () => {
-  const [suffledWords, setSuffledWords] = useState<SuffledCardType[]>(
-    getSuffledWords()
+  const { currentRound } = usePractice();
+
+  const [suffledWords, setSuffledWords] = useState<PracticeCardType[]>(
+    currentRound.suffledWords
   );
   const [suffledTranslations, setSuffledTranslations] = useState<
-    SuffledCardType[]
-  >(getSuffledTranslations());
+    PracticeCardType[]
+  >(currentRound.suffledTranslations);
 
   const [selectedWord, setSelectedWord] = useState<string>();
   const [selectedTranslation, setSelectedTranslation] = useState<string>();
@@ -72,9 +26,10 @@ export const PlayBoard = () => {
     word: string;
     translation: string;
   }) => {
-    const originalWordTranslation = game.words.find(
-      (gameWord) => gameWord.word === word
+    const originalWordTranslation = currentRound.initialWords.find(
+      (initialWord) => initialWord.word === word
     );
+
     // Success
     if (translation === originalWordTranslation?.translation) {
       const _suffledWords = suffledWords.map((suffledWord) => {
@@ -99,7 +54,7 @@ export const PlayBoard = () => {
     // TODO MANROMERO
   };
 
-  const handleWordClick = (word: SuffledCardType) => {
+  const handleWordClick = (word: PracticeCardType) => {
     const _selectedWord = selectedWord !== word.value ? word.value : undefined;
     if (_selectedWord && selectedTranslation) {
       setSelectedTranslation(undefined);
@@ -109,7 +64,7 @@ export const PlayBoard = () => {
     }
   };
 
-  const handleTranslationClick = (translation: SuffledCardType) => {
+  const handleTranslationClick = (translation: PracticeCardType) => {
     const _selectedTranslation =
       selectedTranslation !== translation.value ? translation.value : undefined;
     if (selectedWord && _selectedTranslation) {

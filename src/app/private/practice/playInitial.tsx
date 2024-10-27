@@ -5,7 +5,6 @@ import {
   Button,
   Checkbox,
   Chip,
-  Container,
   Divider,
   FormControlLabel,
   FormGroup,
@@ -14,7 +13,7 @@ import {
 } from "@mui/material";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 
-import { useData } from "@/hooks";
+import { useData, usePractice } from "@/hooks";
 import { TagType } from "@/types";
 
 type InnerTagType = TagType & {
@@ -22,6 +21,8 @@ type InnerTagType = TagType & {
 };
 
 export const PlayInitial = () => {
+  const { onPlay } = usePractice();
+
   const { tags } = useData();
 
   const [checkboxTags, setCheckboxTags] = useState<InnerTagType[]>([]);
@@ -44,6 +45,13 @@ export const PlayInitial = () => {
       };
     });
     setCheckboxTags(newTags);
+  };
+
+  const handleClick = () => {
+    const checkedIdTags = checkboxTags
+      .filter((t) => t.checked)
+      .map((t) => t.id as string);
+    onPlay(checkedIdTags);
   };
 
   return (
@@ -77,6 +85,7 @@ export const PlayInitial = () => {
           color="primary"
           type="button"
           disabled={!checkboxTags.some((tag) => tag.checked)}
+          onClick={handleClick}
         >
           Start
         </Button>
