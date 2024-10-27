@@ -1,6 +1,5 @@
 "use client";
 
-import { MOCK_TAGS } from "@/mock";
 import React, { useState } from "react";
 import SettingsIcon from "@mui/icons-material/Settings";
 
