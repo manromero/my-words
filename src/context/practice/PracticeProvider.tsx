@@ -79,6 +79,14 @@ export const PracticeProvider = ({
     setState("playing");
   };
 
+  const startNextRound = () => {
+    if (currentRoundNumber + 1 < rounds.length) {
+      setCurrentRoundNumber(currentRoundNumber + 1);
+    } else {
+      setState("resume");
+    }
+  };
+
   return (
     <PracticeContext.Provider
       value={{
@@ -87,6 +95,7 @@ export const PracticeProvider = ({
         currentRound: rounds[currentRoundNumber],
         currentRoundNumber,
         onPlay: handlePlay,
+        startNextRound,
       }}
     >
       {children}

@@ -7,7 +7,7 @@ import { Stack } from "@mui/material";
 import React, { useState } from "react";
 
 export const PlayBoard = () => {
-  const { currentRound } = usePractice();
+  const { currentRound, startNextRound } = usePractice();
 
   const [suffledWords, setSuffledWords] = useState<PracticeCardType[]>(
     currentRound.suffledWords
@@ -18,6 +18,14 @@ export const PlayBoard = () => {
 
   const [selectedWord, setSelectedWord] = useState<string>();
   const [selectedTranslation, setSelectedTranslation] = useState<string>();
+
+  // Listen when new round
+  React.useEffect(() => {
+    setSelectedWord(undefined);
+    setSelectedWord(undefined);
+    setSuffledWords([...currentRound.suffledWords]);
+    setSuffledTranslations([...currentRound.suffledTranslations]);
+  }, [currentRound]);
 
   const checkMatch = ({
     word,
@@ -48,10 +56,14 @@ export const PlayBoard = () => {
       );
       setSuffledWords(_suffledWords);
       setSuffledTranslations(_suffledTranslations);
+      // If there are not more words to mark as checked
+      if (!_suffledWords.some((sw) => !sw.disabled)) {
+        startNextRound();
+      }
       return;
     }
     // Error
-    // TODO MANROMERO
+    // TODO MANROMERO add some animation
   };
 
   const handleWordClick = (word: PracticeCardType) => {

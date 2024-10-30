@@ -9,6 +9,7 @@ type PracticeContextType = {
   currentRound: PracticeRoundType;
   currentRoundNumber: number;
   onPlay: (tags: string[]) => void;
+  startNextRound: () => void;
 };
 
 export const PracticeContext = createContext({} as PracticeContextType);
