@@ -63,9 +63,9 @@ export const PracticeProvider = ({
 
   const handlePlay = (tags: string[]) => {
     const filteredWords = words
-      .filter(({ word, translation, tags }) => {
+      .filter(({ word, translation, tags: wordTags }) => {
         return (
-          tags?.some((wordTagId) => tags.includes(wordTagId)) &&
+          wordTags?.some((wordTagId) => tags.includes(wordTagId)) &&
           word &&
           translation
         );
@@ -74,6 +74,10 @@ export const PracticeProvider = ({
         word: w.word as string,
         translation: w.translation as string,
       }));
+    if (filteredWords.length === 0) {
+      setState("resume");
+      return;
+    }
     const generatedRounds = generateRounds(filteredWords);
     setRounds(generatedRounds);
     setState("playing");
