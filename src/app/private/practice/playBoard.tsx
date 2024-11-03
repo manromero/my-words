@@ -90,7 +90,7 @@ export const PlayBoard = () => {
   };
 
   return (
-    <Stack direction="column" gap={2} width={"100%"} marginTop={4}>
+    <Stack direction="column" gap={2} width={"100%"} marginTop={2}>
       <Stack sx={{ width: "100%" }} direction="row" alignItems="center" gap={1}>
         <LinearProgress
           variant="determinate"

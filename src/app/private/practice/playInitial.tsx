@@ -60,7 +60,7 @@ export const PlayInitial = () => {
       justifyContent="center"
       alignItems="center"
       gap={2}
-      marginTop={1}
+      marginTop={2}
     >
       <Divider textAlign="center">
         <Typography variant="subtitle1" sx={{ textAlign: "center" }}>
