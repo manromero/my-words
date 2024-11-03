@@ -98,6 +98,9 @@ export const PracticeProvider = ({
         rounds,
         currentRound: rounds[currentRoundNumber],
         currentRoundNumber,
+        percentageCompleted: rounds.length
+          ? Math.round((100 * currentRoundNumber) / rounds.length)
+          : 0,
         onPlay: handlePlay,
         startNextRound,
       }}

@@ -8,6 +8,7 @@ type PracticeContextType = {
   rounds: PracticeRoundType[];
   currentRound: PracticeRoundType;
   currentRoundNumber: number;
+  percentageCompleted: number;
   onPlay: (tags: string[]) => void;
   startNextRound: () => void;
 };

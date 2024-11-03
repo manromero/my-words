@@ -3,11 +3,11 @@
 import { PlayCard } from "@/components";
 import { usePractice } from "@/hooks";
 import { PracticeCardType } from "@/types";
-import { Stack } from "@mui/material";
+import { Box, LinearProgress, Stack, Typography } from "@mui/material";
 import React, { useState } from "react";
 
 export const PlayBoard = () => {
-  const { currentRound, startNextRound } = usePractice();
+  const { currentRound, percentageCompleted, startNextRound } = usePractice();
 
   const [suffledWords, setSuffledWords] = useState<PracticeCardType[]>(
     currentRound.suffledWords
@@ -88,23 +88,43 @@ export const PlayBoard = () => {
   };
 
   return (
-    <Stack direction="column" spacing={2} width={"100%"} marginTop={4}>
-      {suffledWords.map((suffledWord, index) => (
-        <Stack direction="row" spacing={2} key={suffledWord.value}>
-          <PlayCard
-            label={suffledWord.value}
-            selected={suffledWord.value === selectedWord}
-            disabled={suffledWord.disabled}
-            onClick={() => handleWordClick(suffledWord)}
-          />
-          <PlayCard
-            label={suffledTranslations[index].value}
-            disabled={suffledTranslations[index].disabled}
-            selected={suffledTranslations[index].value === selectedTranslation}
-            onClick={() => handleTranslationClick(suffledTranslations[index])}
-          />
-        </Stack>
-      ))}
+    <Stack direction="column" spacing={4} width={"100%"} marginTop={4}>
+      <Stack
+        sx={{ width: "100%" }}
+        direction="row"
+        alignItems="center"
+        spacing={1}
+      >
+        <LinearProgress
+          variant="determinate"
+          value={percentageCompleted}
+          sx={{ height: 8, borderRadius: 5, flexGrow: 1 }}
+        />
+        <Typography
+          variant="body2"
+          sx={{ color: "text.secondary" }}
+        >{`${percentageCompleted}%`}</Typography>
+      </Stack>
+      <Stack direction="column" spacing={2} width={"100%"} marginTop={4}>
+        {suffledWords.map((suffledWord, index) => (
+          <Stack direction="row" spacing={2} key={suffledWord.value}>
+            <PlayCard
+              label={suffledWord.value}
+              selected={suffledWord.value === selectedWord}
+              disabled={suffledWord.disabled}
+              onClick={() => handleWordClick(suffledWord)}
+            />
+            <PlayCard
+              label={suffledTranslations[index].value}
+              disabled={suffledTranslations[index].disabled}
+              selected={
+                suffledTranslations[index].value === selectedTranslation
+              }
+              onClick={() => handleTranslationClick(suffledTranslations[index])}
+            />
+          </Stack>
+        ))}
+      </Stack>
     </Stack>
   );
 };
