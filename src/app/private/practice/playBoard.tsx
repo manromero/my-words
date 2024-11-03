@@ -3,11 +3,13 @@
 import { PlayCard } from "@/components";
 import { usePractice } from "@/hooks";
 import { PracticeCardType } from "@/types";
-import { Box, LinearProgress, Stack, Typography } from "@mui/material";
+import { Box, Button, LinearProgress, Stack, Typography } from "@mui/material";
 import React, { useState } from "react";
+import RestartAltIcon from "@mui/icons-material/RestartAlt";
 
 export const PlayBoard = () => {
-  const { currentRound, percentageCompleted, startNextRound } = usePractice();
+  const { currentRound, percentageCompleted, startNextRound, restart } =
+    usePractice();
 
   const [suffledWords, setSuffledWords] = useState<PracticeCardType[]>(
     currentRound.suffledWords
@@ -88,13 +90,8 @@ export const PlayBoard = () => {
   };
 
   return (
-    <Stack direction="column" spacing={4} width={"100%"} marginTop={4}>
-      <Stack
-        sx={{ width: "100%" }}
-        direction="row"
-        alignItems="center"
-        spacing={1}
-      >
+    <Stack direction="column" gap={2} width={"100%"} marginTop={4}>
+      <Stack sx={{ width: "100%" }} direction="row" alignItems="center" gap={1}>
         <LinearProgress
           variant="determinate"
           value={percentageCompleted}
@@ -105,9 +102,9 @@ export const PlayBoard = () => {
           sx={{ color: "text.secondary" }}
         >{`${percentageCompleted}%`}</Typography>
       </Stack>
-      <Stack direction="column" spacing={2} width={"100%"} marginTop={4}>
+      <Stack direction="column" gap={2} width={"100%"}>
         {suffledWords.map((suffledWord, index) => (
-          <Stack direction="row" spacing={2} key={suffledWord.value}>
+          <Stack direction="row" gap={2} key={suffledWord.value}>
             <PlayCard
               label={suffledWord.value}
               selected={suffledWord.value === selectedWord}
@@ -125,6 +122,16 @@ export const PlayBoard = () => {
           </Stack>
         ))}
       </Stack>
+      <Button
+        variant="contained"
+        size="large"
+        color="error"
+        startIcon={<RestartAltIcon />}
+        onClick={restart}
+        sx={{ marginTop: 5 }}
+      >
+        Restart
+      </Button>
     </Stack>
   );
 };

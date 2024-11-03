@@ -91,6 +91,12 @@ export const PracticeProvider = ({
     }
   };
 
+  const handleRestart = () => {
+    setState("initial");
+    setCurrentRoundNumber(0);
+    setRounds([]);
+  };
+
   return (
     <PracticeContext.Provider
       value={{
@@ -103,6 +109,7 @@ export const PracticeProvider = ({
           : 0,
         onPlay: handlePlay,
         startNextRound,
+        restart: handleRestart,
       }}
     >
       {children}

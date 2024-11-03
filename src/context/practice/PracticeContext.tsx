@@ -11,6 +11,7 @@ type PracticeContextType = {
   percentageCompleted: number;
   onPlay: (tags: string[]) => void;
   startNextRound: () => void;
+  restart: () => void;
 };
 
 export const PracticeContext = createContext({} as PracticeContextType);
