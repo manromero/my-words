@@ -59,7 +59,7 @@ export const PlayInitial = () => {
       direction="column"
       justifyContent="center"
       alignItems="center"
-      spacing={2}
+      gap={2}
       marginTop={1}
     >
       <Divider textAlign="center">
@@ -78,18 +78,17 @@ export const PlayInitial = () => {
           />
         ))}
       </FormGroup>
-      <Stack direction="row" justifyContent="center" spacing={2}>
-        <Button
-          variant="contained"
-          startIcon={<PlayArrowIcon />}
-          color="primary"
-          type="button"
-          disabled={!checkboxTags.some((tag) => tag.checked)}
-          onClick={handleClick}
-        >
-          Start
-        </Button>
-      </Stack>
+      <Button
+        variant="contained"
+        startIcon={<PlayArrowIcon />}
+        color="primary"
+        type="button"
+        sx={{ width: "100%", marginTop: 2 }}
+        disabled={!checkboxTags.some((tag) => tag.checked)}
+        onClick={handleClick}
+      >
+        Start
+      </Button>
     </Stack>
   );
 };
