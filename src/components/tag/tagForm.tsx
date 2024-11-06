@@ -107,7 +107,7 @@ export const TagForm = ({ tag = defaultTag, ...props }: TagFormType) => {
         return (
           <form onSubmit={handleSubmit}>
             <FormControl fullWidth>
-              <Stack direction="column" spacing={2}>
+              <Stack direction="column" gap={2}>
                 <FormControl>
                   <TextField
                     fullWidth
@@ -191,12 +191,16 @@ export const TagForm = ({ tag = defaultTag, ...props }: TagFormType) => {
                   </RadioGroup>
                 </FormControl>
                 {values.label !== "" && (
-                  <Stack direction="row" alignItems="center" spacing={2}>
+                  <Stack direction="row" alignItems="center" gap={2}>
                     <FormLabel component="p">Preview</FormLabel>
                     <Chip label={values.label} color={values.color as any} />
                   </Stack>
                 )}
-                <Stack direction="row" justifyContent="flex-end" spacing={2}>
+                <Stack
+                  direction={{ sx: "column", lg: "row" }}
+                  justifyContent="flex-end"
+                  gap={2}
+                >
                   <Button
                     variant="contained"
                     color="error"

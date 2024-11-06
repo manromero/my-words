@@ -17,6 +17,7 @@ const AppPage = () => {
       alignItems="center"
       marginTop="30vh"
       gap={2}
+      padding={2}
     >
       {loading && (
         <>
@@ -27,18 +28,24 @@ const AppPage = () => {
       )}
       {!loading && (
         <>
-          <Typography variant="h4" component="h1">
+          <Typography variant="h4" component="h1" textAlign="center">
             Welcome to MyWords
           </Typography>
           <Box width="90%">
-            <Divider textAlign="center">
+            <Typography variant="h6" component="h2" textAlign="center">
               Use one of the next providers to Sign In
-            </Divider>
+            </Typography>
           </Box>
           <Button
             startIcon={<GoogleIcon />}
             variant="contained"
             color="error"
+            sx={{
+              width: {
+                xs: "100%",
+                lg: "30%",
+              },
+            }}
             onClick={signInWithGoogle}
           >
             SignIn With Google
@@ -47,6 +54,12 @@ const AppPage = () => {
             startIcon={<FacebookIcon />}
             variant="contained"
             color="primary"
+            sx={{
+              width: {
+                xs: "100%",
+                lg: "30%",
+              },
+            }}
             onClick={signInWithFacebook}
           >
             SignIn With Facebook

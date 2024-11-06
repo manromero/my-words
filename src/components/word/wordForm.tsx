@@ -163,7 +163,7 @@ export const WordForm = ({ word = defaultWord, ...props }: WordFormType) => {
 
         return (
           <form onSubmit={handleSubmit}>
-            <Stack direction="column" spacing={2}>
+            <Stack direction="column" gap={2}>
               <FormControl>
                 <TextField
                   fullWidth
@@ -254,7 +254,11 @@ export const WordForm = ({ word = defaultWord, ...props }: WordFormType) => {
                 </FormGroup>
                 <FormHelperText>Select one or more tags</FormHelperText>
               </FormControl>
-              <Stack direction="row" justifyContent="flex-end" spacing={2}>
+              <Stack
+                direction={{ sx: "column", lg: "row" }}
+                justifyContent="flex-end"
+                gap={2}
+              >
                 <Button
                   variant="contained"
                   color="error"

@@ -51,7 +51,7 @@ export default function TagListPage() {
     <Box>
       <Stack
         direction="row"
-        spacing={2}
+        gap={2}
         sx={{
           position: "sticky",
           top: { xs: "56px", sm: "64px" },

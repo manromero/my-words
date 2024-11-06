@@ -79,7 +79,7 @@ export default function MainPage() {
           zIndex: 1,
         }}
       >
-        <Stack direction="row" spacing={2}>
+        <Stack direction="row" gap={2}>
           <FormControl variant="outlined" fullWidth>
             <InputLabel htmlFor="input-filter-words">
               Filter word or concept
