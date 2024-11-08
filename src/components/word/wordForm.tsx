@@ -163,108 +163,113 @@ export const WordForm = ({ word = defaultWord, ...props }: WordFormType) => {
 
         return (
           <form onSubmit={handleSubmit}>
-            <Stack direction="column" gap={2}>
+            <Stack direction="column">
               <Stack
                 direction="column"
-                gap={2}
                 flexGrow={1}
                 overflow="auto"
                 // TODO Improve me
                 maxHeight="50vh"
               >
-                <FormControl>
-                  <TextField
+                <Stack direction="column" gap={2} paddingBottom={2}>
+                  <FormControl>
+                    <TextField
+                      fullWidth
+                      name="word"
+                      label="Word or concept"
+                      variant="outlined"
+                      helperText={
+                        wordError
+                          ? errors.word
+                          : "Insert here the word or concept to translate"
+                      }
+                      error={wordError}
+                      value={values.word}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                    />
+                  </FormControl>
+                  <FormControl variant="outlined" fullWidth>
+                    <InputLabel
+                      htmlFor="input-word-translation"
+                      error={translationError}
+                    >
+                      Translation
+                    </InputLabel>
+                    <OutlinedInput
+                      fullWidth
+                      label="Translation:"
+                      id="input-word-translation"
+                      name="translation"
+                      error={translationError}
+                      value={values.translation}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      endAdornment={
+                        <InputAdornment position="end">
+                          <IconButton
+                            color="primary"
+                            aria-label="Click here to autogenerate a translation"
+                            onClick={() =>
+                              handleTranslate({
+                                text: values.word,
+                                setFieldValue,
+                              })
+                            }
+                            disabled={!values.word || loadingTranslate}
+                          >
+                            <AutoFixHighIcon />
+                          </IconButton>
+                        </InputAdornment>
+                      }
+                    />
+                    <FormHelperText error={translationError}>
+                      {translationError
+                        ? errors.translation
+                        : "Insert here the tranalation associated to the word or click in the magic wand"}
+                    </FormHelperText>
+                  </FormControl>
+                  <FormControl>
+                    <TextField
+                      fullWidth
+                      multiline
+                      minRows={3}
+                      label="Notes"
+                      variant="outlined"
+                      helperText={
+                        notesError ? errors.notes : "Insert here help notes"
+                      }
+                      name="notes"
+                      error={notesError}
+                      value={values.notes}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                    />
+                  </FormControl>
+                  <FormControl
                     fullWidth
-                    name="word"
-                    label="Word or concept"
+                    component="fieldset"
                     variant="outlined"
-                    helperText={
-                      wordError
-                        ? errors.word
-                        : "Insert here the word or concept to translate"
-                    }
-                    error={wordError}
-                    value={values.word}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                  />
-                </FormControl>
-                <FormControl variant="outlined" fullWidth>
-                  <InputLabel
-                    htmlFor="input-word-translation"
-                    error={translationError}
                   >
-                    Translation
-                  </InputLabel>
-                  <OutlinedInput
-                    fullWidth
-                    label="Translation:"
-                    id="input-word-translation"
-                    name="translation"
-                    error={translationError}
-                    value={values.translation}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    endAdornment={
-                      <InputAdornment position="end">
-                        <IconButton
-                          color="primary"
-                          aria-label="Click here to autogenerate a translation"
-                          onClick={() =>
-                            handleTranslate({
-                              text: values.word,
-                              setFieldValue,
-                            })
+                    <FormLabel component="legend">Tags</FormLabel>
+                    <FormGroup sx={{ display: "flex", flexDirection: "row" }}>
+                      {tags.data.map((tag) => (
+                        <FormControlLabel
+                          key={tag.label}
+                          control={<Checkbox />}
+                          label={
+                            <Chip label={tag.label} color={tag.color as any} />
                           }
-                          disabled={!values.word || loadingTranslate}
-                        >
-                          <AutoFixHighIcon />
-                        </IconButton>
-                      </InputAdornment>
-                    }
-                  />
-                  <FormHelperText error={translationError}>
-                    {translationError
-                      ? errors.translation
-                      : "Insert here the tranalation associated to the word or click in the magic wand"}
-                  </FormHelperText>
-                </FormControl>
-                <FormControl>
-                  <TextField
-                    fullWidth
-                    multiline
-                    minRows={3}
-                    label="Notes"
-                    variant="outlined"
-                    helperText={
-                      notesError ? errors.notes : "Insert here help notes"
-                    }
-                    name="notes"
-                    error={notesError}
-                    value={values.notes}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                  />
-                </FormControl>
-                <FormControl fullWidth component="fieldset" variant="outlined">
-                  <FormLabel component="legend">Tags</FormLabel>
-                  <FormGroup sx={{ display: "flex", flexDirection: "row" }}>
-                    {tags.data.map((tag) => (
-                      <FormControlLabel
-                        key={tag.label}
-                        control={<Checkbox />}
-                        label={
-                          <Chip label={tag.label} color={tag.color as any} />
-                        }
-                        name="tags"
-                        value={tag.id}
-                        onChange={handleChange}
-                        checked={values.tags?.includes(tag.id as string)}
-                      />
-                    ))}
-                  </FormGroup>
-                  <FormHelperText>Select one or more tags</FormHelperText>
-                </FormControl>
+                          name="tags"
+                          value={tag.id}
+                          onChange={handleChange}
+                          checked={values.tags?.includes(tag.id as string)}
+                        />
+                      ))}
+                    </FormGroup>
+                    <FormHelperText>Select one or more tags</FormHelperText>
+                  </FormControl>
+                </Stack>
               </Stack>
               <Stack
                 direction={{ sx: "column", lg: "row" }}
