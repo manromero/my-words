@@ -20,7 +20,7 @@ export const WordFormFooter = ({
 }: WordFormFooterType) => {
   return (
     <Stack
-      direction={{ sx: "column", lg: "row" }}
+      direction={{ xs: "column", lg: "row" }}
       justifyContent="flex-end"
       boxShadow="0px -5px 4px -2px rgba(0, 0, 0, 0.2)"
       gap={2}

@@ -16,7 +16,7 @@ export const TagFormFooter = ({
 }: TagFormFooterType) => {
   return (
     <Stack
-      direction={{ sx: "column", lg: "row" }}
+      direction={{ xs: "column", lg: "row" }}
       justifyContent="flex-end"
       gap={2}
       boxShadow="0px -5px 4px -2px rgba(0, 0, 0, 0.2)"
