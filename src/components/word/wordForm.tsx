@@ -10,6 +10,8 @@ import { WordFormFooter } from "./wordFormFooter";
 import { IconButton } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 
+import wordFormStyles from "./wordForm.module.css";
+
 type WordFormType = {
   word?: WordType;
   onCreate?: (word: WordType) => void;
@@ -108,7 +110,7 @@ export const WordForm = ({ word = defaultWord, ...props }: WordFormType) => {
             direction="column"
             onSubmit={handleSubmit}
             padding={3}
-            maxHeight="80vh"
+            className={wordFormStyles.formHeight}
           >
             <IconButton
               color="primary"

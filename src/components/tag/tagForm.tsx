@@ -10,6 +10,8 @@ import { TagFormContent } from "./tagFormContent";
 import { IconButton } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 
+import tagFormStyles from "./tagForm.module.css";
+
 type TagFormType = {
   tag?: TagType;
   onCreate?: (tag: TagType) => void;
@@ -101,7 +103,7 @@ export const TagForm = ({ tag = defaultTag, ...props }: TagFormType) => {
             direction="column"
             onSubmit={handleSubmit}
             padding={3}
-            maxHeight="80vh"
+            className={tagFormStyles.formHeight}
           >
             <IconButton
               color="primary"
