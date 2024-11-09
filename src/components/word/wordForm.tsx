@@ -7,12 +7,15 @@ import * as Yup from "yup";
 import { WordType, WordWithIdType } from "@/types";
 import { WordFormContent } from "./wordFormContent";
 import { WordFormFooter } from "./wordFormFooter";
+import { IconButton } from "@mui/material";
+import CloseIcon from "@mui/icons-material/Close";
 
 type WordFormType = {
   word?: WordType;
   onCreate?: (word: WordType) => void;
   onEdit?: (word: WordType) => void;
   onDelete?: () => void;
+  onClose?: () => void;
 };
 
 const defaultWord: WordType = {
@@ -100,7 +103,21 @@ export const WordForm = ({ word = defaultWord, ...props }: WordFormType) => {
         isSubmitting,
       }) => {
         return (
-          <Stack component="form" direction="column" onSubmit={handleSubmit}>
+          <Stack
+            component="form"
+            direction="column"
+            onSubmit={handleSubmit}
+            padding={3}
+            maxHeight="80vh"
+          >
+            <IconButton
+              color="primary"
+              aria-label="Close Modal"
+              onClick={props.onClose}
+              sx={{ alignSelf: "flex-end" }}
+            >
+              <CloseIcon />
+            </IconButton>
             <WordFormContent
               errors={errors}
               touched={touched}
