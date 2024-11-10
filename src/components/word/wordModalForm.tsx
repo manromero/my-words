@@ -1,7 +1,7 @@
 import React from "react";
 import { WordType } from "@/types";
-import { Box, Modal } from "@mui/material";
 import { WordForm } from "./wordForm";
+import { Modal } from "../commons";
 
 type WordModalFormType = {
   word?: WordType;
@@ -11,32 +11,16 @@ type WordModalFormType = {
   onDelete?: () => void;
 };
 
-const style = {
-  position: "absolute" as "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  width: { xs: "95%", lg: "60%" },
-  bgcolor: "background.paper",
-  border: "2px solid #000",
-  boxShadow: 24,
-  display: "flex",
-  flexDirection: "column",
-  gap: 1,
-};
-
 export const WordModalForm = (props: WordModalFormType) => {
   return (
     <Modal open={props.word !== undefined} onClose={props.onClose}>
-      <Box sx={style}>
-        <WordForm
-          word={props.word}
-          onClose={props.onClose}
-          onCreate={props.onCreate}
-          onEdit={props.onEdit}
-          onDelete={props.onDelete}
-        />
-      </Box>
+      <WordForm
+        word={props.word}
+        onClose={props.onClose}
+        onCreate={props.onCreate}
+        onEdit={props.onEdit}
+        onDelete={props.onDelete}
+      />
     </Modal>
   );
 };
