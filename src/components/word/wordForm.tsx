@@ -129,7 +129,7 @@ export const WordForm = ({ word = defaultWord, ...props }: WordFormType) => {
               setFieldValue={setFieldValue}
             />
             <WordFormFooter
-              disableSave={isSubmitting}
+              disableSave={Object.values(errors).some((e) => e) || isSubmitting}
               disableDelete={values.id === undefined || isSubmitting}
               onDeleteClick={() => handleDelete(values.id as string)}
             />

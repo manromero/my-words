@@ -122,7 +122,7 @@ export const TagForm = ({ tag = defaultTag, ...props }: TagFormType) => {
             />
             <TagFormFooter
               disableDelete={values.id === undefined || isSubmitting}
-              disableSave={isSubmitting}
+              disableSave={Object.values(errors).some((e) => e) || isSubmitting}
               onDeleteClick={() => handleDelete(values.id as string)}
             />
           </Stack>
