@@ -33,6 +33,10 @@ export const PlayBoard = () => {
     setSelectedWord(undefined);
     setSuffledWords([...currentRound.suffledWords]);
     setSuffledTranslations([...currentRound.suffledTranslations]);
+  }, [currentRound]);
+
+  // Initialice timer if set
+  React.useEffect(() => {
     let interval: NodeJS.Timeout | undefined;
     if (playTime) {
       setTimeToFinish(playTime);
@@ -45,7 +49,7 @@ export const PlayBoard = () => {
       );
     }
     return () => clearInterval(interval);
-  }, [currentRound, playTime]);
+  }, [playTime]);
 
   // Listen when time finish
   React.useEffect(() => {
