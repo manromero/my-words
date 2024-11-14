@@ -4,7 +4,7 @@ export type PracticePlayConfig = {
   tags: string[];
   numberOfCards?: number;
   maxRounds?: number;
-  roundTime?: number;
+  playTime?: number;
 };
 
 export type PracticeWordType = {

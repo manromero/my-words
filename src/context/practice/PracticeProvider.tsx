@@ -25,6 +25,7 @@ export const PracticeProvider = ({
   useWords();
   const [state, setState] = useState<PracticeRoundStateType>("initial");
   const [rounds, setRounds] = useState<PracticeRoundType[]>([]);
+  const [playTime, setPlayTime] = useState<number | undefined>();
   const [currentRoundNumber, setCurrentRoundNumber] = useState(0);
   const { data: words } = useWords();
 
@@ -79,7 +80,7 @@ export const PracticeProvider = ({
     tags,
     maxRounds,
     numberOfCards,
-    roundTime,
+    playTime,
   }: PracticePlayConfig) => {
     const filteredWords = words
       .filter(({ word, translation, tags: wordTags }) => {
@@ -102,6 +103,7 @@ export const PracticeProvider = ({
       maxRounds,
       numberOfCards,
     });
+    setPlayTime(playTime);
     setRounds(generatedRounds);
     setState("playing");
   };
@@ -130,6 +132,7 @@ export const PracticeProvider = ({
         percentageCompleted: rounds.length
           ? Math.round((100 * currentRoundNumber) / rounds.length)
           : 0,
+        playTime,
         onPlay: handlePlay,
         startNextRound,
         restart: handleRestart,

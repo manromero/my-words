@@ -8,8 +8,13 @@ import React, { useState } from "react";
 import RestartAltIcon from "@mui/icons-material/RestartAlt";
 
 export const PlayBoard = () => {
-  const { currentRound, percentageCompleted, startNextRound, restart } =
-    usePractice();
+  const {
+    currentRound,
+    percentageCompleted,
+    startNextRound,
+    restart,
+    playTime,
+  } = usePractice();
 
   const [suffledWords, setSuffledWords] = useState<PracticeCardType[]>(
     currentRound.suffledWords
@@ -17,6 +22,7 @@ export const PlayBoard = () => {
   const [suffledTranslations, setSuffledTranslations] = useState<
     PracticeCardType[]
   >(currentRound.suffledTranslations);
+  const [timeToFinish, setTimeToFinish] = useState<number | undefined>();
 
   const [selectedWord, setSelectedWord] = useState<string>();
   const [selectedTranslation, setSelectedTranslation] = useState<string>();
@@ -27,7 +33,28 @@ export const PlayBoard = () => {
     setSelectedWord(undefined);
     setSuffledWords([...currentRound.suffledWords]);
     setSuffledTranslations([...currentRound.suffledTranslations]);
-  }, [currentRound]);
+    let interval: NodeJS.Timeout | undefined;
+    if (playTime) {
+      setTimeToFinish(playTime);
+      interval = setInterval(
+        () =>
+          setTimeToFinish((_timeToFinish) =>
+            _timeToFinish ? _timeToFinish - 1 : undefined
+          ),
+        1000
+      );
+    }
+    return () => clearInterval(interval);
+  }, [currentRound, playTime]);
+
+  // Listen when time finish
+  React.useEffect(() => {
+    if (timeToFinish === 0) {
+      // TODO MANROMERO IMPROVE!!
+      window.alert("times up");
+      restart();
+    }
+  }, [timeToFinish, restart]);
 
   const checkMatch = ({
     word,
@@ -91,6 +118,21 @@ export const PlayBoard = () => {
 
   return (
     <Stack direction="column" gap={2} width={"100%"} marginTop={2}>
+      {timeToFinish !== undefined && (
+        <Stack
+          sx={{ width: "100%" }}
+          direction="row"
+          alignItems="center"
+          justifyContent="center"
+        >
+          <Box sx={{ p: 2, border: "2px solid black" }}>
+            <Typography
+              variant="body1"
+              sx={{ color: "text.secondary" }}
+            >{`${timeToFinish} sec`}</Typography>
+          </Box>
+        </Stack>
+      )}
       <Stack sx={{ width: "100%" }} direction="row" alignItems="center" gap={1}>
         <LinearProgress
           variant="determinate"

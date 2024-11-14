@@ -13,6 +13,7 @@ type PracticeContextType = {
   currentRound: PracticeRoundType;
   currentRoundNumber: number;
   percentageCompleted: number;
+  playTime?: number;
   onPlay: (config: PracticePlayConfig) => void;
   startNextRound: () => void;
   restart: () => void;

@@ -29,7 +29,7 @@ const defaultConfig: PracticePlayConfig = {
   tags: [],
   numberOfCards: undefined,
   maxRounds: undefined,
-  roundTime: undefined,
+  playTime: undefined,
 };
 
 export const PlayInitial = () => {
@@ -62,7 +62,7 @@ export const PlayInitial = () => {
           .min(2, "Should be greater than 2")
           .max(10, "Should be less than 10"),
         maxRounds: Yup.number().min(1, "Should be greater than 1"),
-        roundTime: Yup.number()
+        playTime: Yup.number()
           .min(1, "Should be greater than 1")
           .max(3600, "Should be less than 3600"),
       })}
@@ -86,7 +86,7 @@ export const PlayInitial = () => {
           errors.numberOfCards && touched.numberOfCards
         );
         const maxRoundsError = Boolean(errors.maxRounds && touched.maxRounds);
-        const roundTimeError = Boolean(errors.roundTime && touched.roundTime);
+        const playTimeError = Boolean(errors.playTime && touched.playTime);
 
         return (
           <Stack
@@ -161,12 +161,12 @@ export const PlayInitial = () => {
                 <FormControl sx={{ flexGrow: 1 }}>
                   <TextField
                     fullWidth
-                    name="roundTime"
-                    label="Round Time (seconds)"
+                    name="playTime"
+                    label="Play Time (seconds)"
                     variant="outlined"
                     type="number"
-                    helperText={roundTimeError ? errors.roundTime : undefined}
-                    error={roundTimeError}
+                    helperText={playTimeError ? errors.playTime : undefined}
+                    error={playTimeError}
                     onChange={handleChange}
                     onBlur={handleBlur}
                   />
