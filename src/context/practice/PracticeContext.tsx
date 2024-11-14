@@ -1,7 +1,11 @@
 "use client";
 
 import { createContext } from "react";
-import { PracticeRoundStateType, PracticeRoundType, WordType } from "@/types";
+import {
+  PracticePlayConfig,
+  PracticeRoundStateType,
+  PracticeRoundType,
+} from "@/types";
 
 type PracticeContextType = {
   state: PracticeRoundStateType;
@@ -9,7 +13,7 @@ type PracticeContextType = {
   currentRound: PracticeRoundType;
   currentRoundNumber: number;
   percentageCompleted: number;
-  onPlay: (tags: string[]) => void;
+  onPlay: (config: PracticePlayConfig) => void;
   startNextRound: () => void;
   restart: () => void;
 };

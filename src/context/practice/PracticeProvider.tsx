@@ -5,6 +5,7 @@ import React, { useState } from "react";
 import { PracticeContext } from "./PracticeContext";
 
 import {
+  PracticePlayConfig,
   PracticeRoundStateType,
   PracticeRoundType,
   PracticeWordType,
@@ -16,7 +17,7 @@ type PracticeProviderType = {
   children: React.ReactNode;
 };
 
-const ROUND_WORDS_SIZE = 5;
+const DEFAULT_NUMBER_OF_CARDS = 5;
 
 export const PracticeProvider = ({
   children,
@@ -27,13 +28,26 @@ export const PracticeProvider = ({
   const [currentRoundNumber, setCurrentRoundNumber] = useState(0);
   const { data: words } = useWords();
 
-  const generateRounds = (words: PracticeWordType[]): PracticeRoundType[] => {
+  const generateRounds = ({
+    words,
+    maxRounds,
+    numberOfCards,
+  }: {
+    words: PracticeWordType[];
+    maxRounds?: number;
+    numberOfCards?: number;
+  }): PracticeRoundType[] => {
     const suffledWords = suffleArray(words);
     const rounds: PracticeRoundType[] = [];
 
+    const _numberOfCards = numberOfCards ?? DEFAULT_NUMBER_OF_CARDS;
+
     while (suffledWords.length) {
+      if (maxRounds && rounds.length === maxRounds) {
+        break;
+      }
       const initialWords = [];
-      for (let i = 0; i < ROUND_WORDS_SIZE; i++) {
+      for (let i = 0; i < _numberOfCards; i++) {
         const wordPoped = suffledWords.pop();
         if (!wordPoped) {
           break;
@@ -61,7 +75,12 @@ export const PracticeProvider = ({
     return rounds;
   };
 
-  const handlePlay = (tags: string[]) => {
+  const handlePlay = ({
+    tags,
+    maxRounds,
+    numberOfCards,
+    roundTime,
+  }: PracticePlayConfig) => {
     const filteredWords = words
       .filter(({ word, translation, tags: wordTags }) => {
         return (
@@ -78,7 +97,11 @@ export const PracticeProvider = ({
       setState("resume");
       return;
     }
-    const generatedRounds = generateRounds(filteredWords);
+    const generatedRounds = generateRounds({
+      words: filteredWords,
+      maxRounds,
+      numberOfCards,
+    });
     setRounds(generatedRounds);
     setState("playing");
   };

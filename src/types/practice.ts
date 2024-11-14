@@ -1,5 +1,12 @@
 export type PracticeRoundStateType = "initial" | "playing" | "resume";
 
+export type PracticePlayConfig = {
+  tags: string[];
+  numberOfCards?: number;
+  maxRounds?: number;
+  roundTime?: number;
+};
+
 export type PracticeWordType = {
   word: string;
   translation: string;

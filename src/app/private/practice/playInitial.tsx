@@ -14,13 +14,22 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
+import { Formik } from "formik";
+import * as Yup from "yup";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 
 import { useData, usePractice } from "@/hooks";
-import { TagType } from "@/types";
+import { PracticePlayConfig, TagType } from "@/types";
 
 type InnerTagType = TagType & {
   checked?: boolean;
+};
+
+const defaultConfig: PracticePlayConfig = {
+  tags: [],
+  numberOfCards: undefined,
+  maxRounds: undefined,
+  roundTime: undefined,
 };
 
 export const PlayInitial = () => {
@@ -41,87 +50,146 @@ export const PlayInitial = () => {
     });
   }, [tags.data]);
 
-  const handleChangeCheckboxTag = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const newTags = checkboxTags.map((tag) => {
-      return {
-        ...tag,
-        checked: tag.id === e.target.value ? e.target.checked : tag.checked,
-      };
-    });
-    setCheckboxTags(newTags);
-  };
-
   const handleAddConfigClick = () => {
     setShowMoreConfig((prev) => !prev);
   };
 
-  const handlePlayClick = () => {
-    const checkedIdTags = checkboxTags
-      .filter((t) => t.checked)
-      .map((t) => t.id as string);
-    onPlay(checkedIdTags);
-  };
-
   return (
-    <Stack direction="column" justifyContent="center" gap={1} marginTop={2}>
-      <Typography variant="subtitle1" sx={{ textAlign: "center" }}>
-        Select some tags to practice
-      </Typography>
-      <FormGroup
-        sx={{ display: "flex", flexDirection: "row", alignSelf: "center" }}
-      >
-        {checkboxTags.map((tag) => (
-          <FormControlLabel
-            key={tag.id}
-            control={
-              <Checkbox value={tag.id} onChange={handleChangeCheckboxTag} />
-            }
-            label={<Chip label={tag.label} color={tag.color as any} />}
-          />
-        ))}
-      </FormGroup>
-      <Button
-        variant="outlined"
-        color="primary"
-        type="button"
-        sx={{ width: "100%" }}
-        onClick={handleAddConfigClick}
-      >
-        {showMoreConfig ? "Contract More Config" : "Expand More Config"}
-      </Button>
-      <Collapse in={showMoreConfig}>
-        <Stack direction={{ xs: "column", lg: "row" }} gap={1}>
-          <FormControl sx={{ flexGrow: 1 }}>
-            <TextField
-              fullWidth
-              name="numberOfCards"
-              label="Number of cards"
+    <Formik
+      initialValues={defaultConfig}
+      validationSchema={Yup.object({
+        numberOfCards: Yup.number()
+          .min(2, "Should be greater than 2")
+          .max(10, "Should be less than 10"),
+        maxRounds: Yup.number().min(1, "Should be greater than 1"),
+        roundTime: Yup.number()
+          .min(1, "Should be greater than 1")
+          .max(3600, "Should be less than 3600"),
+      })}
+      onSubmit={async (values, { setSubmitting }) => {
+        console.log("values", values);
+        setSubmitting(true);
+        onPlay(values);
+      }}
+    >
+      {({
+        values,
+        errors,
+        touched,
+        handleChange,
+        handleBlur,
+        handleSubmit,
+        setFieldValue,
+        isSubmitting,
+      }) => {
+        const numberOfCardsError = Boolean(
+          errors.numberOfCards && touched.numberOfCards
+        );
+        const maxRoundsError = Boolean(errors.maxRounds && touched.maxRounds);
+        const roundTimeError = Boolean(errors.roundTime && touched.roundTime);
+
+        return (
+          <Stack
+            component="form"
+            direction="column"
+            justifyContent="center"
+            gap={1}
+            marginTop={2}
+            onSubmit={handleSubmit}
+          >
+            <Typography variant="subtitle1" sx={{ textAlign: "center" }}>
+              Select some tags to practice
+            </Typography>
+            <FormGroup
+              sx={{
+                display: "flex",
+                flexDirection: "row",
+                alignSelf: "center",
+              }}
+            >
+              {checkboxTags.map((tag) => (
+                <FormControlLabel
+                  key={tag.id}
+                  control={<Checkbox />}
+                  label={<Chip label={tag.label} color={tag.color as any} />}
+                  name="tags"
+                  value={tag.id}
+                  onChange={handleChange}
+                  checked={values.tags?.includes(tag.id as string)}
+                />
+              ))}
+            </FormGroup>
+            <Button
               variant="outlined"
-              type="number"
-            />
-          </FormControl>
-          <FormControl sx={{ flexGrow: 1 }}>
-            <TextField
-              fullWidth
-              name="maxRounds"
-              label="Max. Number of Rounds"
-              variant="outlined"
-              type="number"
-            />
-          </FormControl>
-        </Stack>
-      </Collapse>
-      <Button
-        variant="contained"
-        startIcon={<PlayArrowIcon />}
-        color="primary"
-        type="button"
-        sx={{ width: "100%" }}
-        disabled={!checkboxTags.some((tag) => tag.checked)}
-        onClick={handlePlayClick}
-      >
-        Start
-      </Button>
-    </Stack>
+              color="primary"
+              type="button"
+              sx={{ width: "100%" }}
+              onClick={handleAddConfigClick}
+            >
+              {showMoreConfig ? "Contract More Config" : "Expand More Config"}
+            </Button>
+            <Collapse in={showMoreConfig}>
+              <Stack direction={{ xs: "column", lg: "row" }} gap={1}>
+                <FormControl sx={{ flexGrow: 1 }}>
+                  <TextField
+                    fullWidth
+                    name="numberOfCards"
+                    label="Number of cards"
+                    variant="outlined"
+                    type="number"
+                    helperText={
+                      numberOfCardsError ? errors.numberOfCards : undefined
+                    }
+                    error={numberOfCardsError}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                  />
+                </FormControl>
+                <FormControl sx={{ flexGrow: 1 }}>
+                  <TextField
+                    fullWidth
+                    name="maxRounds"
+                    label="Max. Number of Rounds"
+                    variant="outlined"
+                    type="number"
+                    helperText={maxRoundsError ? errors.maxRounds : undefined}
+                    error={maxRoundsError}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                  />
+                </FormControl>
+                <FormControl sx={{ flexGrow: 1 }}>
+                  <TextField
+                    fullWidth
+                    name="roundTime"
+                    label="Round Time (seconds)"
+                    variant="outlined"
+                    type="number"
+                    helperText={roundTimeError ? errors.roundTime : undefined}
+                    error={roundTimeError}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                  />
+                </FormControl>
+              </Stack>
+            </Collapse>
+            <Button
+              variant="contained"
+              startIcon={<PlayArrowIcon />}
+              color="primary"
+              type="submit"
+              sx={{ width: "100%" }}
+              disabled={
+                Object.values(errors).some((e) => e) ||
+                isSubmitting ||
+                values.tags.length === 0
+              }
+            >
+              Start
+            </Button>
+          </Stack>
+        );
+      }}
+    </Formik>
   );
 };
