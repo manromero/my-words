@@ -79,11 +79,9 @@ export const WordFormContent = ({
     }
   };
 
-  const wordError = Boolean(errors.word && touched.word && errors.word);
-  const translationError = Boolean(
-    errors.translation && touched.translation && errors.translation
-  );
-  const notesError = Boolean(errors.notes && touched.notes && errors.notes);
+  const wordError = Boolean(errors.word && touched.word);
+  const translationError = Boolean(errors.translation && touched.translation);
+  const notesError = Boolean(errors.notes && touched.notes);
 
   return (
     <Stack

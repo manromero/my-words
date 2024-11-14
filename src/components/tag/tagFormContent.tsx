@@ -24,7 +24,7 @@ export const TagFormContent = ({
   onChange,
   onBlur,
 }: TagFormContentType) => {
-  const labelError = Boolean(errors.label && touched.label && errors.label);
+  const labelError = Boolean(errors.label && touched.label);
 
   return (
     <Stack
