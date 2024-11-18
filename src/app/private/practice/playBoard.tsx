@@ -4,8 +4,9 @@ import { PlayCard } from "@/components";
 import { usePractice } from "@/hooks";
 import { PracticeCardType } from "@/types";
 import { Box, Button, LinearProgress, Stack, Typography } from "@mui/material";
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import RestartAltIcon from "@mui/icons-material/RestartAlt";
+import { GoToResumeModal } from "@/components/practice";
 
 export const PlayBoard = () => {
   const {
@@ -13,22 +14,32 @@ export const PlayBoard = () => {
     percentageCompleted,
     startNextRound,
     restart,
+    goToResume,
     playTime,
   } = usePractice();
 
-  const [suffledWords, setSuffledWords] = useState<PracticeCardType[]>(
-    currentRound.suffledWords
-  );
+  const [suffledWords, setSuffledWords] = useState<
+    PracticeCardType[] | undefined
+  >(currentRound?.suffledWords);
   const [suffledTranslations, setSuffledTranslations] = useState<
-    PracticeCardType[]
-  >(currentRound.suffledTranslations);
+    PracticeCardType[] | undefined
+  >(currentRound?.suffledTranslations);
   const [timeToFinish, setTimeToFinish] = useState<number | undefined>();
 
   const [selectedWord, setSelectedWord] = useState<string>();
   const [selectedTranslation, setSelectedTranslation] = useState<string>();
 
+  const [openModalTimeIsUp, setOpenModalTimeIsUp] = useState(false);
+  const [openModalGameFinish, setOpenModalGameFinish] = useState(false);
+
   // Listen when new round
   React.useEffect(() => {
+    // if !currentRound -> game finished
+    if (currentRound === undefined) {
+      clearInterval(timeToFinishInternal.current);
+      setOpenModalGameFinish(true);
+      return;
+    }
     setSelectedWord(undefined);
     setSelectedWord(undefined);
     setSuffledWords([...currentRound.suffledWords]);
@@ -36,11 +47,11 @@ export const PlayBoard = () => {
   }, [currentRound]);
 
   // Initialice timer if set
+  const timeToFinishInternal = useRef<NodeJS.Timeout | undefined>();
   React.useEffect(() => {
-    let interval: NodeJS.Timeout | undefined;
     if (playTime) {
       setTimeToFinish(playTime);
-      interval = setInterval(
+      timeToFinishInternal.current = setInterval(
         () =>
           setTimeToFinish((_timeToFinish) =>
             _timeToFinish ? _timeToFinish - 1 : undefined
@@ -48,15 +59,14 @@ export const PlayBoard = () => {
         1000
       );
     }
-    return () => clearInterval(interval);
+    return () => clearInterval(timeToFinishInternal.current);
   }, [playTime]);
 
   // Listen when time finish
   React.useEffect(() => {
     if (timeToFinish === 0) {
-      // TODO MANROMERO IMPROVE!!
-      window.alert("times up");
-      restart();
+      clearInterval(timeToFinishInternal.current);
+      setOpenModalTimeIsUp(true);
     }
   }, [timeToFinish, restart]);
 
@@ -67,19 +77,19 @@ export const PlayBoard = () => {
     word: string;
     translation: string;
   }) => {
-    const originalWordTranslation = currentRound.initialWords.find(
+    const originalWordTranslation = currentRound?.initialWords.find(
       (initialWord) => initialWord.word === word
     );
 
     // Success
     if (translation === originalWordTranslation?.translation) {
-      const _suffledWords = suffledWords.map((suffledWord) => {
+      const _suffledWords = suffledWords?.map((suffledWord) => {
         if (suffledWord.value === word) {
           return { ...suffledWord, disabled: true };
         }
         return suffledWord;
       });
-      const _suffledTranslations = suffledTranslations.map(
+      const _suffledTranslations = suffledTranslations?.map(
         (suffledTranslation) => {
           if (suffledTranslation.value === translation) {
             return { ...suffledTranslation, disabled: true };
@@ -90,7 +100,7 @@ export const PlayBoard = () => {
       setSuffledWords(_suffledWords);
       setSuffledTranslations(_suffledTranslations);
       // If there are not more words to mark as checked
-      if (!_suffledWords.some((sw) => !sw.disabled)) {
+      if (!_suffledWords?.some((sw) => !sw.disabled)) {
         startNextRound();
       }
       return;
@@ -121,63 +131,83 @@ export const PlayBoard = () => {
   };
 
   return (
-    <Stack direction="column" gap={2} width={"100%"} marginTop={2}>
-      {timeToFinish !== undefined && (
+    <>
+      <Stack direction="column" gap={2} width={"100%"} marginTop={2}>
+        {timeToFinish !== undefined && (
+          <Stack
+            sx={{ width: "100%" }}
+            direction="row"
+            alignItems="center"
+            justifyContent="center"
+          >
+            <Box sx={{ p: 2, border: "2px solid black" }}>
+              <Typography
+                variant="body1"
+                sx={{ color: "text.secondary" }}
+              >{`${timeToFinish} sec`}</Typography>
+            </Box>
+          </Stack>
+        )}
         <Stack
           sx={{ width: "100%" }}
           direction="row"
           alignItems="center"
-          justifyContent="center"
+          gap={1}
         >
-          <Box sx={{ p: 2, border: "2px solid black" }}>
-            <Typography
-              variant="body1"
-              sx={{ color: "text.secondary" }}
-            >{`${timeToFinish} sec`}</Typography>
-          </Box>
+          <LinearProgress
+            variant="determinate"
+            value={percentageCompleted}
+            sx={{ height: 8, borderRadius: 5, flexGrow: 1 }}
+          />
+          <Typography
+            variant="body2"
+            sx={{ color: "text.secondary" }}
+          >{`${percentageCompleted}%`}</Typography>
         </Stack>
-      )}
-      <Stack sx={{ width: "100%" }} direction="row" alignItems="center" gap={1}>
-        <LinearProgress
-          variant="determinate"
-          value={percentageCompleted}
-          sx={{ height: 8, borderRadius: 5, flexGrow: 1 }}
-        />
-        <Typography
-          variant="body2"
-          sx={{ color: "text.secondary" }}
-        >{`${percentageCompleted}%`}</Typography>
+        <Stack direction="column" gap={2} width={"100%"}>
+          {suffledWords?.map((suffledWord, index) => {
+            const suffledTranslation = suffledTranslations?.[
+              index
+            ] as PracticeCardType;
+            return (
+              <Stack direction="row" gap={2} key={suffledWord.value}>
+                <PlayCard
+                  label={suffledWord.value}
+                  selected={suffledWord.value === selectedWord}
+                  disabled={suffledWord.disabled}
+                  onClick={() => handleWordClick(suffledWord)}
+                />
+                <PlayCard
+                  label={suffledTranslation.value}
+                  disabled={suffledTranslation.disabled}
+                  selected={suffledTranslation.value === selectedTranslation}
+                  onClick={() => handleTranslationClick(suffledTranslation)}
+                />
+              </Stack>
+            );
+          })}
+        </Stack>
+        <Button
+          variant="contained"
+          size="large"
+          color="error"
+          startIcon={<RestartAltIcon />}
+          onClick={restart}
+          sx={{ marginTop: 5 }}
+        >
+          Restart
+        </Button>
       </Stack>
-      <Stack direction="column" gap={2} width={"100%"}>
-        {suffledWords.map((suffledWord, index) => (
-          <Stack direction="row" gap={2} key={suffledWord.value}>
-            <PlayCard
-              label={suffledWord.value}
-              selected={suffledWord.value === selectedWord}
-              disabled={suffledWord.disabled}
-              onClick={() => handleWordClick(suffledWord)}
-            />
-            <PlayCard
-              label={suffledTranslations[index].value}
-              disabled={suffledTranslations[index].disabled}
-              selected={
-                suffledTranslations[index].value === selectedTranslation
-              }
-              onClick={() => handleTranslationClick(suffledTranslations[index])}
-            />
-          </Stack>
-        ))}
-      </Stack>
-      <Button
-        variant="contained"
-        size="large"
-        color="error"
-        startIcon={<RestartAltIcon />}
-        onClick={restart}
-        sx={{ marginTop: 5 }}
-      >
-        Restart
-      </Button>
-    </Stack>
+      <GoToResumeModal
+        open={openModalTimeIsUp}
+        title="Time is up!"
+        onGoToResume={goToResume}
+      />
+      <GoToResumeModal
+        open={openModalGameFinish}
+        title="Game Finished!"
+        onGoToResume={goToResume}
+      />
+    </>
   );
 };

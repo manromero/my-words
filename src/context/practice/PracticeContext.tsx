@@ -10,11 +10,12 @@ import {
 type PracticeContextType = {
   state: PracticeRoundStateType;
   rounds: PracticeRoundType[];
-  currentRound: PracticeRoundType;
+  currentRound?: PracticeRoundType;
   currentRoundNumber: number;
   percentageCompleted: number;
   playTime?: number;
   onPlay: (config: PracticePlayConfig) => void;
+  goToResume: () => void;
   startNextRound: () => void;
   restart: () => void;
 };

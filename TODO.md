@@ -1,6 +1,6 @@
 # TODO List
 
-- Finish practice with a fancy time up popover
+- Improve resume page
 - Review words page when it have too many words
 - Review redirecting to main when already login
 - Improve auth in general

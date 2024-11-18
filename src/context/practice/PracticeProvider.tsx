@@ -109,17 +109,17 @@ export const PracticeProvider = ({
   };
 
   const startNextRound = () => {
-    if (currentRoundNumber + 1 < rounds.length) {
-      setCurrentRoundNumber(currentRoundNumber + 1);
-    } else {
-      setState("resume");
-    }
+    setCurrentRoundNumber(currentRoundNumber + 1);
   };
 
   const handleRestart = () => {
     setState("initial");
     setCurrentRoundNumber(0);
     setRounds([]);
+  };
+
+  const handleGoToResume = () => {
+    setState("resume");
   };
 
   return (
@@ -134,6 +134,7 @@ export const PracticeProvider = ({
           : 0,
         playTime,
         onPlay: handlePlay,
+        goToResume: handleGoToResume,
         startNextRound,
         restart: handleRestart,
       }}

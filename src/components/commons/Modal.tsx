@@ -1,13 +1,14 @@
 import React from "react";
-import { Box, Modal as MaterialModal } from "@mui/material";
+import { Box, Modal as MaterialModal, SxProps, Theme } from "@mui/material";
 
 type ModalType = {
   children?: React.ReactNode;
   open?: boolean;
   onClose?: () => void;
+  customSxBox?: SxProps<Theme> | undefined;
 };
 
-const style = {
+const style: SxProps<Theme> = {
   position: "absolute" as "absolute",
   top: "50%",
   left: "50%",
@@ -21,10 +22,15 @@ const style = {
   gap: 1,
 };
 
-export const Modal = ({ children, open = false, onClose }: ModalType) => {
+export const Modal = ({
+  children,
+  open = false,
+  onClose,
+  customSxBox,
+}: ModalType) => {
   return (
     <MaterialModal open={open} onClose={onClose}>
-      <Box sx={style}>{children}</Box>
+      <Box sx={{ ...style, ...customSxBox }}>{children}</Box>
     </MaterialModal>
   );
 };
