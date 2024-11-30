@@ -25,8 +25,8 @@ export const PracticeProvider = ({
   useWords();
   const [state, setState] = useState<PracticeRoundStateType>("initial");
   const [rounds, setRounds] = useState<PracticeRoundType[]>([]);
-  const [playTime, setPlayTime] = useState<number | undefined>();
   const [currentRoundNumber, setCurrentRoundNumber] = useState(0);
+  const [playTime, setPlayTime] = useState<number | undefined>();
   const { data: words } = useWords();
 
   const generateRounds = ({
@@ -116,8 +116,9 @@ export const PracticeProvider = ({
 
   const handleRestart = () => {
     setState("initial");
-    setCurrentRoundNumber(0);
     setRounds([]);
+    setCurrentRoundNumber(0);
+    setPlayTime(undefined);
   };
 
   const handleGoToResume = () => {
