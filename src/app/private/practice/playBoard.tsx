@@ -33,6 +33,8 @@ export const PlayBoard = () => {
   const [openModalTimeIsUp, setOpenModalTimeIsUp] = useState(false);
   const [openModalGameFinish, setOpenModalGameFinish] = useState(false);
 
+  const wordErrorIds = useRef<string[]>([]);
+
   // Listen when new round
   React.useEffect(() => {
     // if !currentRound -> game finished
@@ -98,6 +100,7 @@ export const PlayBoard = () => {
       return;
     }
     // Error
+    wordErrorIds.current.push(wordId, translationId);
     // TODO MANROMERO add some animation
   };
 
@@ -129,7 +132,13 @@ export const PlayBoard = () => {
   };
 
   const handleGoToResume = () => {
-    goToResume({ timeExpended });
+    const uniqueWordErrorIds = wordErrorIds.current.filter((element, index) => {
+      return wordErrorIds.current.indexOf(element) === index;
+    });
+    goToResume({
+      timeExpended,
+      wordErrorIds: uniqueWordErrorIds,
+    });
   };
 
   return (

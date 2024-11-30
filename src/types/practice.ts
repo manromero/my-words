@@ -9,6 +9,7 @@ export type PracticePlayConfigType = {
 
 export type PracticeGoToResumeType = {
   timeExpended: number;
+  wordErrorIds: string[];
 };
 
 export type PracticeWordType = {
