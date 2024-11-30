@@ -95,7 +95,7 @@ export const PracticeProvider = ({
         translation: w.translation as string,
       }));
     if (filteredWords.length === 0) {
-      setState("resume");
+      setState("error");
       return;
     }
     const generatedRounds = generateRounds({

@@ -1,4 +1,4 @@
-export type PracticeRoundStateType = "initial" | "playing" | "resume";
+export type PracticeRoundStateType = "initial" | "playing" | "resume" | "error";
 
 export type PracticePlayConfig = {
   tags: string[];
