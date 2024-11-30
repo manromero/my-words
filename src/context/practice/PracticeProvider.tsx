@@ -47,7 +47,7 @@ export const PracticeProvider = ({
       if (maxRounds && rounds.length === maxRounds) {
         break;
       }
-      const initialWords = [];
+      const initialWords: PracticeWordType[] = [];
       for (let i = 0; i < _numberOfCards; i++) {
         const wordPoped = suffledWords.pop();
         if (!wordPoped) {
@@ -59,13 +59,15 @@ export const PracticeProvider = ({
         initialWords,
         suffledWords: suffleArray(
           initialWords.map((w) => ({
-            value: w.word as string,
+            id: w.id,
+            value: w.word,
             disabled: false,
           }))
         ),
         suffledTranslations: suffleArray(
           initialWords.map((w) => ({
-            value: w.translation as string,
+            id: w.id,
+            value: w.translation,
             disabled: false,
           }))
         ),

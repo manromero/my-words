@@ -27,8 +27,8 @@ export const PlayBoard = () => {
 
   const [timeExpended, setTimeExpended] = useState(0);
 
-  const [selectedWord, setSelectedWord] = useState<string>();
-  const [selectedTranslation, setSelectedTranslation] = useState<string>();
+  const [selectedWordId, setSelectedWordId] = useState<string>();
+  const [selectedTranslationId, setSelectedTranslationId] = useState<string>();
 
   const [openModalTimeIsUp, setOpenModalTimeIsUp] = useState(false);
   const [openModalGameFinish, setOpenModalGameFinish] = useState(false);
@@ -41,8 +41,8 @@ export const PlayBoard = () => {
       setOpenModalGameFinish(true);
       return;
     }
-    setSelectedWord(undefined);
-    setSelectedWord(undefined);
+    setSelectedWordId(undefined);
+    setSelectedTranslationId(undefined);
     setSuffledWords([...currentRound.suffledWords]);
     setSuffledTranslations([...currentRound.suffledTranslations]);
   }, [currentRound]);
@@ -67,27 +67,23 @@ export const PlayBoard = () => {
   }, [timeExpended, playTime]);
 
   const checkMatch = ({
-    word,
-    translation,
+    wordId,
+    translationId,
   }: {
-    word: string;
-    translation: string;
+    wordId: string;
+    translationId: string;
   }) => {
-    const originalWordTranslation = currentRound?.initialWords.find(
-      (initialWord) => initialWord.word === word
-    );
-
     // Success
-    if (translation === originalWordTranslation?.translation) {
+    if (wordId === translationId) {
       const _suffledWords = suffledWords?.map((suffledWord) => {
-        if (suffledWord.value === word) {
+        if (suffledWord.id === wordId) {
           return { ...suffledWord, disabled: true };
         }
         return suffledWord;
       });
       const _suffledTranslations = suffledTranslations?.map(
         (suffledTranslation) => {
-          if (suffledTranslation.value === translation) {
+          if (suffledTranslation.id === translationId) {
             return { ...suffledTranslation, disabled: true };
           }
           return suffledTranslation;
@@ -106,23 +102,29 @@ export const PlayBoard = () => {
   };
 
   const handleWordClick = (word: PracticeCardType) => {
-    const _selectedWord = selectedWord !== word.value ? word.value : undefined;
-    if (_selectedWord && selectedTranslation) {
-      setSelectedTranslation(undefined);
-      checkMatch({ word: _selectedWord, translation: selectedTranslation });
+    const _selectedWordId = selectedWordId !== word.id ? word.id : undefined;
+    if (_selectedWordId && selectedTranslationId) {
+      setSelectedTranslationId(undefined);
+      checkMatch({
+        wordId: _selectedWordId,
+        translationId: selectedTranslationId,
+      });
     } else {
-      setSelectedWord(_selectedWord);
+      setSelectedWordId(_selectedWordId);
     }
   };
 
   const handleTranslationClick = (translation: PracticeCardType) => {
-    const _selectedTranslation =
-      selectedTranslation !== translation.value ? translation.value : undefined;
-    if (selectedWord && _selectedTranslation) {
-      setSelectedWord(undefined);
-      checkMatch({ word: selectedWord, translation: _selectedTranslation });
+    const _selectedTranslationId =
+      selectedTranslationId !== translation.id ? translation.id : undefined;
+    if (selectedWordId && _selectedTranslationId) {
+      setSelectedWordId(undefined);
+      checkMatch({
+        wordId: selectedWordId,
+        translationId: _selectedTranslationId,
+      });
     } else {
-      setSelectedTranslation(_selectedTranslation);
+      setSelectedTranslationId(_selectedTranslationId);
     }
   };
 
@@ -169,17 +171,17 @@ export const PlayBoard = () => {
               index
             ] as PracticeCardType;
             return (
-              <Stack direction="row" gap={2} key={suffledWord.value}>
+              <Stack direction="row" gap={2} key={suffledWord.id}>
                 <PlayCard
                   label={suffledWord.value}
-                  selected={suffledWord.value === selectedWord}
+                  selected={suffledWord.id === selectedWordId}
                   disabled={suffledWord.disabled}
                   onClick={() => handleWordClick(suffledWord)}
                 />
                 <PlayCard
                   label={suffledTranslation.value}
                   disabled={suffledTranslation.disabled}
-                  selected={suffledTranslation.value === selectedTranslation}
+                  selected={suffledTranslation.id === selectedTranslationId}
                   onClick={() => handleTranslationClick(suffledTranslation)}
                 />
               </Stack>

@@ -25,6 +25,7 @@ export type PracticeRoundType = {
 };
 
 export type PracticeCardType = {
+  id: string;
   value: string;
   disabled: boolean;
 };
