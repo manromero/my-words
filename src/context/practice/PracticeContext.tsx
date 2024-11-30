@@ -2,7 +2,8 @@
 
 import { createContext } from "react";
 import {
-  PracticePlayConfig,
+  PracticePlayConfigType,
+  PracticeGoToResumeType,
   PracticeRoundStateType,
   PracticeRoundType,
 } from "@/types";
@@ -14,8 +15,8 @@ type PracticeContextType = {
   currentRoundNumber: number;
   percentageCompleted: number;
   playTime?: number;
-  onPlay: (config: PracticePlayConfig) => void;
-  goToResume: () => void;
+  onPlay: (config: PracticePlayConfigType) => void;
+  goToResume: (props: PracticeGoToResumeType) => void;
   startNextRound: () => void;
   restart: () => void;
 };

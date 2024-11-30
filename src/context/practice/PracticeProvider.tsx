@@ -5,7 +5,7 @@ import React, { useState } from "react";
 import { PracticeContext } from "./PracticeContext";
 
 import {
-  PracticePlayConfig,
+  PracticePlayConfigType,
   PracticeRoundStateType,
   PracticeRoundType,
   PracticeWordType,
@@ -81,7 +81,7 @@ export const PracticeProvider = ({
     maxRounds,
     numberOfCards,
     playTime,
-  }: PracticePlayConfig) => {
+  }: PracticePlayConfigType) => {
     const filteredWords = words
       .filter(({ word, translation, tags: wordTags }) => {
         return (
@@ -91,6 +91,7 @@ export const PracticeProvider = ({
         );
       })
       .map((w) => ({
+        id: w.id as string,
         word: w.word as string,
         translation: w.translation as string,
       }));

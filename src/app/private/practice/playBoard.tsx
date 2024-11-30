@@ -24,7 +24,8 @@ export const PlayBoard = () => {
   const [suffledTranslations, setSuffledTranslations] = useState<
     PracticeCardType[] | undefined
   >(currentRound?.suffledTranslations);
-  const [timeToFinish, setTimeToFinish] = useState<number | undefined>();
+
+  const [timeExpended, setTimeExpended] = useState(0);
 
   const [selectedWord, setSelectedWord] = useState<string>();
   const [selectedTranslation, setSelectedTranslation] = useState<string>();
@@ -36,7 +37,7 @@ export const PlayBoard = () => {
   React.useEffect(() => {
     // if !currentRound -> game finished
     if (currentRound === undefined) {
-      clearInterval(timeToFinishInternal.current);
+      clearInterval(timeExpendedInterval.current);
       setOpenModalGameFinish(true);
       return;
     }
@@ -47,28 +48,23 @@ export const PlayBoard = () => {
   }, [currentRound]);
 
   // Initialice timer if set
-  const timeToFinishInternal = useRef<NodeJS.Timeout | undefined>();
+  const timeExpendedInterval = useRef<NodeJS.Timeout | undefined>();
   React.useEffect(() => {
-    if (playTime) {
-      setTimeToFinish(playTime);
-      timeToFinishInternal.current = setInterval(
-        () =>
-          setTimeToFinish((_timeToFinish) =>
-            _timeToFinish ? _timeToFinish - 1 : undefined
-          ),
-        1000
-      );
-    }
-    return () => clearInterval(timeToFinishInternal.current);
-  }, [playTime]);
+    timeExpendedInterval.current = setInterval(() => {
+      setTimeExpended((prev) => prev + 1);
+    }, 1000);
+    return () => {
+      clearInterval(timeExpendedInterval.current);
+    };
+  }, []);
 
   // Listen when time finish
   React.useEffect(() => {
-    if (timeToFinish === 0) {
-      clearInterval(timeToFinishInternal.current);
+    if (playTime && playTime === timeExpended) {
+      clearInterval(timeExpendedInterval.current);
       setOpenModalTimeIsUp(true);
     }
-  }, [timeToFinish, restart]);
+  }, [timeExpended, playTime]);
 
   const checkMatch = ({
     word,
@@ -130,10 +126,14 @@ export const PlayBoard = () => {
     }
   };
 
+  const handleGoToResume = () => {
+    goToResume({ timeExpended });
+  };
+
   return (
     <>
       <Stack direction="column" gap={2} width={"100%"} marginTop={2}>
-        {timeToFinish !== undefined && (
+        {playTime && (
           <Stack
             sx={{ width: "100%" }}
             direction="row"
@@ -141,10 +141,9 @@ export const PlayBoard = () => {
             justifyContent="center"
           >
             <Box sx={{ p: 2, border: "2px solid black" }}>
-              <Typography
-                variant="body1"
-                sx={{ color: "text.secondary" }}
-              >{`${timeToFinish} sec`}</Typography>
+              <Typography variant="body1" sx={{ color: "text.secondary" }}>{`${
+                playTime - timeExpended
+              } sec`}</Typography>
             </Box>
           </Stack>
         )}
@@ -201,12 +200,12 @@ export const PlayBoard = () => {
       <GoToResumeModal
         open={openModalTimeIsUp}
         title="Time is up!"
-        onGoToResume={goToResume}
+        onGoToResume={handleGoToResume}
       />
       <GoToResumeModal
         open={openModalGameFinish}
         title="Game Finished!"
-        onGoToResume={goToResume}
+        onGoToResume={handleGoToResume}
       />
     </>
   );
