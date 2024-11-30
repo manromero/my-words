@@ -22,7 +22,6 @@ export type PracticeRoundType = {
   initialWords: PracticeWordType[];
   suffledWords: PracticeCardType[];
   suffledTranslations: PracticeCardType[];
-  errors: string[];
 };
 
 export type PracticeCardType = {

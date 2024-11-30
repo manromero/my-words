@@ -71,7 +71,6 @@ export const PracticeProvider = ({
             disabled: false,
           }))
         ),
-        errors: [],
       };
       rounds.push(round);
     }
