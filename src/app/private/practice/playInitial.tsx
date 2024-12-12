@@ -19,13 +19,13 @@ import * as Yup from "yup";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 
 import { useData, usePractice } from "@/hooks";
-import { PracticePlayConfig, TagType } from "@/types";
+import { PracticePlayConfigType, TagType } from "@/types";
 
 type InnerTagType = TagType & {
   checked?: boolean;
 };
 
-const defaultConfig: PracticePlayConfig = {
+const defaultConfig: PracticePlayConfigType = {
   tags: [],
   numberOfCards: undefined,
   maxRounds: undefined,
