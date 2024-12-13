@@ -6,10 +6,13 @@ import { Box, Button, Collapse, Stack, Typography } from "@mui/material";
 import { usePractice } from "@/hooks";
 
 import RestartAltIcon from "@mui/icons-material/RestartAlt";
-import NumbersIcon from "@mui/icons-material/Numbers";
-import AccessTimeIcon from "@mui/icons-material/AccessTime";
-import FlagIcon from "@mui/icons-material/Flag";
-import { WordList } from "@/components";
+import {
+  WordList,
+  ResumeAccuracyBox,
+  ResumeTimeBox,
+  ResumeWordBox,
+} from "@/components";
+
 export const PlayResume = () => {
   const { restart } = usePractice();
   const [showWords, setShowWords] = useState(false);
@@ -43,134 +46,9 @@ export const PlayResume = () => {
         alignItems="stretch"
         width="100%"
       >
-        <Box
-          display="flex"
-          flexDirection="column"
-          sx={{ background: "#a76df1", borderRadius: 2, padding: "3px" }}
-          flexBasis={0}
-          flexGrow={1}
-          flexShrink={0}
-        >
-          <Box
-            sx={{ padding: 2, paddingTop: 1, paddingBottom: 1 }}
-            flexGrow={1}
-          >
-            <Typography
-              variant="body1"
-              component="h4"
-              textAlign="center"
-              color="white"
-              fontWeight="900"
-            >
-              Words
-            </Typography>
-          </Box>
-          <Box
-            sx={{ background: "#ffffff", padding: 2, borderRadius: 2 }}
-            display="flex"
-            flexDirection="row"
-            justifyContent="center"
-            alignItems="center"
-            gap="5px"
-          >
-            <NumbersIcon htmlColor="#a76df1" fontWeight="900" />
-            <Typography
-              variant="h5"
-              component="h4"
-              textAlign="center"
-              fontWeight="900"
-              color="#a76df1"
-            >
-              100
-            </Typography>
-          </Box>
-        </Box>
-
-        <Box
-          display="flex"
-          flexDirection="column"
-          sx={{ background: "#6ea9f1", borderRadius: 2, padding: "3px" }}
-          flexBasis={0}
-          flexGrow={1}
-          flexShrink={0}
-        >
-          <Box
-            sx={{ padding: 2, paddingTop: 1, paddingBottom: 1 }}
-            flexGrow={1}
-          >
-            <Typography
-              variant="body1"
-              component="h4"
-              textAlign="center"
-              color="white"
-              fontWeight="900"
-            >
-              Time
-            </Typography>
-          </Box>
-          <Box
-            sx={{ background: "#ffffff", padding: 2, borderRadius: 2 }}
-            display="flex"
-            flexDirection="row"
-            justifyContent="center"
-            alignItems="center"
-            gap="5px"
-          >
-            <AccessTimeIcon htmlColor="#6ea9f1" fontWeight="900" />
-            <Typography
-              variant="h5"
-              component="h4"
-              textAlign="center"
-              fontWeight="900"
-              color="#6ea9f1"
-            >
-              100s
-            </Typography>
-          </Box>
-        </Box>
-
-        <Box
-          display="flex"
-          flexDirection="column"
-          sx={{ background: "#84cf31", borderRadius: 2, padding: "3px" }}
-          flexBasis={0}
-          flexGrow={1}
-          flexShrink={0}
-        >
-          <Box
-            sx={{ padding: 2, paddingTop: 1, paddingBottom: 1 }}
-            flexGrow={1}
-          >
-            <Typography
-              variant="body1"
-              component="h4"
-              textAlign="center"
-              color="white"
-              fontWeight="900"
-            >
-              Accuracy
-            </Typography>
-          </Box>
-          <Box
-            sx={{ background: "#ffffff", padding: 2, borderRadius: 2 }}
-            display="flex"
-            flexDirection="row"
-            justifyContent="center"
-            alignItems="center"
-            gap="5px"
-          >
-            <FlagIcon htmlColor="#84cf31" fontWeight="900" />
-            <Typography
-              variant="h5"
-              component="h4"
-              textAlign="center"
-              fontWeight="900"
-              color="#84cf31"
-            >
-              100
-            </Typography>
-          </Box>
-        </Box>
+        <ResumeWordBox words={100} />
+        <ResumeTimeBox time={100} />
+        <ResumeAccuracyBox accuracy={100} />
       </Box>
 
       {!showWords && (
