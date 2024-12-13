@@ -1,3 +1,5 @@
+import { WordType } from "./word";
+
 export type PracticeRoundStateType = "initial" | "playing" | "resume" | "error";
 
 export type PracticePlayConfigType = {
@@ -16,6 +18,8 @@ export type PracticeResumeType = {
   timeExpended: number;
   wordsLength: number;
   accuracy: number;
+  wordsError: WordType[];
+  wordsSuccess: WordType[];
 };
 
 export type PracticeWordType = {
@@ -25,7 +29,7 @@ export type PracticeWordType = {
 };
 
 export type PracticeRoundType = {
-  initialWords: PracticeWordType[];
+  initialWords: WordType[];
   suffledWords: PracticeCardType[];
   suffledTranslations: PracticeCardType[];
 };

@@ -72,36 +72,33 @@ export const PlayResume = () => {
             gap: 1,
           }}
         >
-          <Typography
-            variant="h5"
-            component="h4"
-            fontWeight="900"
-            color="#d32f2f"
-          >
-            Errors
-          </Typography>
-          <WordList
-            words={[
-              { word: "test", translation: "test", tags: ["test"] },
-              { word: "test", translation: "test", tags: ["test"] },
-            ]}
-            tags={[{ id: "test", label: "test" }]}
-          />
-          <Typography
-            variant="h5"
-            component="h4"
-            fontWeight="900"
-            color="#84cf31"
-          >
-            Success
-          </Typography>
-          <WordList
-            words={[
-              { word: "test", translation: "test", tags: ["test"] },
-              { word: "test", translation: "test", tags: ["test"] },
-            ]}
-            tags={[{ id: "test", label: "test" }]}
-          />
+          {resume.wordsError.length && (
+            <>
+              <Typography
+                variant="h5"
+                component="h4"
+                fontWeight="900"
+                color="#d32f2f"
+              >
+                Errors
+              </Typography>
+              <WordList words={resume.wordsError} tags={[]} />
+            </>
+          )}
+
+          {resume.wordsSuccess.length && (
+            <>
+              <Typography
+                variant="h5"
+                component="h4"
+                fontWeight="900"
+                color="#84cf31"
+              >
+                Success
+              </Typography>
+              <WordList words={resume.wordsSuccess} tags={[]} />
+            </>
+          )}
         </Box>
       </Collapse>
 

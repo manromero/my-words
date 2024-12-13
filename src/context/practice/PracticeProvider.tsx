@@ -10,7 +10,7 @@ import {
   PracticeResumeType,
   PracticeRoundStateType,
   PracticeRoundType,
-  PracticeWordType,
+  WordType,
 } from "@/types";
 import { useWords } from "@/hooks";
 import { suffleArray } from "@/utils";
@@ -33,6 +33,8 @@ export const PracticeProvider = ({
     wordsLength: 0,
     timeExpended: 0,
     accuracy: 0,
+    wordsError: [],
+    wordsSuccess: [],
   });
   const { data: words } = useWords();
 
@@ -41,7 +43,7 @@ export const PracticeProvider = ({
     maxRounds,
     numberOfCards,
   }: {
-    words: PracticeWordType[];
+    words: WordType[];
     maxRounds?: number;
     numberOfCards?: number;
   }): PracticeRoundType[] => {
@@ -54,7 +56,7 @@ export const PracticeProvider = ({
       if (maxRounds && rounds.length === maxRounds) {
         break;
       }
-      const initialWords: PracticeWordType[] = [];
+      const initialWords: WordType[] = [];
       for (let i = 0; i < _numberOfCards; i++) {
         const wordPoped = suffledWords.pop();
         if (!wordPoped) {
@@ -66,15 +68,16 @@ export const PracticeProvider = ({
         initialWords,
         suffledWords: suffleArray(
           initialWords.map((w) => ({
-            id: w.id,
-            value: w.word,
+            // Already checked word and translation exists
+            id: w.id as string,
+            value: w.word as string,
             disabled: false,
           }))
         ),
         suffledTranslations: suffleArray(
           initialWords.map((w) => ({
-            id: w.id,
-            value: w.translation,
+            id: w.id as string,
+            value: w.translation as string,
             disabled: false,
           }))
         ),
@@ -90,19 +93,15 @@ export const PracticeProvider = ({
     numberOfCards,
     playTime,
   }: PracticePlayConfigType) => {
-    const filteredWords = words
-      .filter(({ word, translation, tags: wordTags }) => {
+    const filteredWords = words.filter(
+      ({ word, translation, tags: wordTags }) => {
         return (
           wordTags?.some((wordTagId) => tags.includes(wordTagId)) &&
           word &&
           translation
         );
-      })
-      .map((w) => ({
-        id: w.id as string,
-        word: w.word as string,
-        translation: w.translation as string,
-      }));
+      }
+    );
     if (filteredWords.length === 0) {
       setState("error");
       return;
@@ -132,12 +131,29 @@ export const PracticeProvider = ({
     timeExpended,
     wordErrorIds,
   }: PracticeGoToResumeType) => {
-    const wordsLength = rounds.reduce(
-      (acc, round) => acc + round.initialWords.length,
-      0
+    const words = rounds.reduce(
+      (acc, round) => acc.concat(round.initialWords),
+      [] as WordType[]
     );
+    const wordsLength = words.length;
     const accuracy = Math.round((100.0 * wordErrorIds.length) / wordsLength);
-    setResume({ ...resume, timeExpended, wordsLength, accuracy });
+    const wordsError: WordType[] = [];
+    const wordsSuccess: WordType[] = [];
+    for (const word of words) {
+      if (wordErrorIds.includes(word.id as string)) {
+        wordsError.push(word);
+      } else {
+        wordsSuccess.push(word);
+      }
+    }
+
+    setResume({
+      timeExpended,
+      wordsLength,
+      accuracy,
+      wordsError,
+      wordsSuccess,
+    });
     setState("resume");
   };
 
