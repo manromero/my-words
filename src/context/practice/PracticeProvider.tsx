@@ -10,9 +10,10 @@ import {
   PracticeResumeType,
   PracticeRoundStateType,
   PracticeRoundType,
+  TagType,
   WordType,
 } from "@/types";
-import { useWords } from "@/hooks";
+import { useTags, useWords } from "@/hooks";
 import { suffleArray } from "@/utils";
 
 type PracticeProviderType = {
@@ -35,7 +36,11 @@ export const PracticeProvider = ({
     accuracy: 0,
     wordsError: [],
     wordsSuccess: [],
+    tags: [],
   });
+  const [tags, setTags] = useState<TagType[]>([]);
+
+  const { data: dataTags } = useTags();
   const { data: words } = useWords();
 
   const generateRounds = ({
@@ -102,6 +107,8 @@ export const PracticeProvider = ({
         );
       }
     );
+    setTags(dataTags);
+
     if (filteredWords.length === 0) {
       setState("error");
       return;
@@ -136,7 +143,9 @@ export const PracticeProvider = ({
       [] as WordType[]
     );
     const wordsLength = words.length;
-    const accuracy = Math.round((100.0 * wordErrorIds.length) / wordsLength);
+    const accuracy = Math.round(
+      (100.0 * (wordsLength - wordErrorIds.length)) / wordsLength
+    );
     const wordsError: WordType[] = [];
     const wordsSuccess: WordType[] = [];
     for (const word of words) {
@@ -153,6 +162,7 @@ export const PracticeProvider = ({
       accuracy,
       wordsError,
       wordsSuccess,
+      tags,
     });
     setState("resume");
   };

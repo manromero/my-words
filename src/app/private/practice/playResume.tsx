@@ -72,7 +72,7 @@ export const PlayResume = () => {
             gap: 1,
           }}
         >
-          {resume.wordsError.length && (
+          {resume.wordsError.length ? (
             <>
               <Typography
                 variant="h5"
@@ -82,11 +82,11 @@ export const PlayResume = () => {
               >
                 Errors
               </Typography>
-              <WordList words={resume.wordsError} tags={[]} />
+              <WordList words={resume.wordsError} tags={resume.tags} />
             </>
-          )}
+          ) : undefined}
 
-          {resume.wordsSuccess.length && (
+          {resume.wordsSuccess.length ? (
             <>
               <Typography
                 variant="h5"
@@ -96,9 +96,9 @@ export const PlayResume = () => {
               >
                 Success
               </Typography>
-              <WordList words={resume.wordsSuccess} tags={[]} />
+              <WordList words={resume.wordsSuccess} tags={resume.tags} />
             </>
-          )}
+          ) : undefined}
         </Box>
       </Collapse>
 

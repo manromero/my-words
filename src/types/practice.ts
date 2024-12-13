@@ -1,3 +1,4 @@
+import { TagType } from "./tag";
 import { WordType } from "./word";
 
 export type PracticeRoundStateType = "initial" | "playing" | "resume" | "error";
@@ -20,6 +21,7 @@ export type PracticeResumeType = {
   accuracy: number;
   wordsError: WordType[];
   wordsSuccess: WordType[];
+  tags: TagType[];
 };
 
 export type PracticeWordType = {
