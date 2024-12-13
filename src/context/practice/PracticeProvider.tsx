@@ -5,7 +5,9 @@ import React, { useState } from "react";
 import { PracticeContext } from "./PracticeContext";
 
 import {
+  PracticeGoToResumeType,
   PracticePlayConfigType,
+  PracticeResumeType,
   PracticeRoundStateType,
   PracticeRoundType,
   PracticeWordType,
@@ -27,6 +29,11 @@ export const PracticeProvider = ({
   const [rounds, setRounds] = useState<PracticeRoundType[]>([]);
   const [currentRoundNumber, setCurrentRoundNumber] = useState(0);
   const [playTime, setPlayTime] = useState<number | undefined>();
+  const [resume, setResume] = useState<PracticeResumeType>({
+    wordsLength: 0,
+    timeExpended: 0,
+    accuracy: 0,
+  });
   const { data: words } = useWords();
 
   const generateRounds = ({
@@ -121,7 +128,16 @@ export const PracticeProvider = ({
     setPlayTime(undefined);
   };
 
-  const handleGoToResume = () => {
+  const handleGoToResume = ({
+    timeExpended,
+    wordErrorIds,
+  }: PracticeGoToResumeType) => {
+    const wordsLength = rounds.reduce(
+      (acc, round) => acc + round.initialWords.length,
+      0
+    );
+    const accuracy = Math.round((100.0 * wordErrorIds.length) / wordsLength);
+    setResume({ ...resume, timeExpended, wordsLength, accuracy });
     setState("resume");
   };
 
@@ -136,6 +152,7 @@ export const PracticeProvider = ({
           ? Math.round((100 * currentRoundNumber) / rounds.length)
           : 0,
         playTime,
+        resume,
         onPlay: handlePlay,
         goToResume: handleGoToResume,
         startNextRound,

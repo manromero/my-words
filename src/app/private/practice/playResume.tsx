@@ -14,7 +14,7 @@ import {
 } from "@/components";
 
 export const PlayResume = () => {
-  const { restart } = usePractice();
+  const { restart, resume } = usePractice();
   const [showWords, setShowWords] = useState(false);
 
   const handleShowWords = () => {
@@ -46,9 +46,9 @@ export const PlayResume = () => {
         alignItems="stretch"
         width="100%"
       >
-        <ResumeWordBox words={100} />
-        <ResumeTimeBox time={100} />
-        <ResumeAccuracyBox accuracy={100} />
+        <ResumeWordBox words={resume.wordsLength} />
+        <ResumeTimeBox time={resume.timeExpended} />
+        <ResumeAccuracyBox accuracy={resume.accuracy} />
       </Box>
 
       {!showWords && (

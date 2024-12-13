@@ -12,6 +12,12 @@ export type PracticeGoToResumeType = {
   wordErrorIds: string[];
 };
 
+export type PracticeResumeType = {
+  timeExpended: number;
+  wordsLength: number;
+  accuracy: number;
+};
+
 export type PracticeWordType = {
   id: string;
   word: string;

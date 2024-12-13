@@ -6,6 +6,7 @@ import {
   PracticeGoToResumeType,
   PracticeRoundStateType,
   PracticeRoundType,
+  PracticeResumeType,
 } from "@/types";
 
 type PracticeContextType = {
@@ -15,6 +16,7 @@ type PracticeContextType = {
   currentRoundNumber: number;
   percentageCompleted: number;
   playTime?: number;
+  resume: PracticeResumeType;
   onPlay: (config: PracticePlayConfigType) => void;
   goToResume: (props: PracticeGoToResumeType) => void;
   startNextRound: () => void;
